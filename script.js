@@ -1,3 +1,4 @@
+
 // Game State
 const game = {
     currency: 0,
@@ -123,6 +124,17 @@ const upgrades = {
         owned: 0,
         category: "generators",
         description: "Harness the power of the cosmos"
+    },
+        generator11: {
+        id: "generator11",
+        name: "⚙️ ZAS",
+        emoji: "⚙️",
+        baseCost: 10e11,
+        costMultiplier: 1.15,
+        baseEffect: 1.6e7,
+        owned: 0,
+        category: "generators",
+        description: "me"
     },
     
     // Multipliers
