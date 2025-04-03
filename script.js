@@ -11,7 +11,7 @@ const game = {
     version: 1
 };
 
-// Upgrade Definitions
+// Upgrade Definitions (removed multiplier category)
 const upgrades = {
     // Generators
     generator1: {
@@ -125,74 +125,17 @@ const upgrades = {
         description: "Harness the power of the cosmos"
     },
     
-    // Multipliers
-    multiplier1: {
-        id: "multiplier1",
-        name: "✨ Polish",
-        emoji: "✨",
-        baseCost: 100,
-        costMultiplier: 1.5,
-        baseEffect: 1.5,
-        owned: 0,
-        category: "multipliers",
-        description: "Makes everything shine brighter (+0.5x per level)"
-    },
-    multiplier2: {
-        id: "multiplier2",
-        name: "🔮 Magic",
-        emoji: "🔮",
-        baseCost: 1000,
-        costMultiplier: 1.5,
-        baseEffect: 2,
-        owned: 0,
-        category: "multipliers",
-        description: "Magical boost to all generators (+1x per level)"
-    },
-    multiplier3: {
-        id: "multiplier3",
-        name: "⚡ Boost",
-        emoji: "⚡",
-        baseCost: 10000,
-        costMultiplier: 1.5,
-        baseEffect: 3,
-        owned: 0,
-        category: "multipliers",
-        description: "Electrifying speed boost (+2x per level)"
-    },
-    multiplier4: {
-        id: "multiplier4",
-        name: "💎 Diamond",
-        emoji: "💎",
-        baseCost: 1e5,
-        costMultiplier: 1.5,
-        baseEffect: 5,
-        owned: 0,
-        category: "multipliers",
-        description: "Diamond-hard efficiency (+4x per level)"
-    },
-    multiplier5: {
-        id: "multiplier5",
-        name: "🦄 Unicorn",
-        emoji: "🦄",
-        baseCost: 1e6,
-        costMultiplier: 1.5,
-        baseEffect: 8,
-        owned: 0,
-        category: "multipliers",
-        description: "Mythical production boost (+7x per level)"
-    },
-    
-    // Special Upgrades
+    // Special Upgrades (now all additive)
     special1: {
         id: "special1",
         name: "🎯 Precision",
         emoji: "🎯",
         baseCost: 500,
         costMultiplier: 2,
-        baseEffect: 2,
+        baseEffect: 1, // +1 per level
         owned: 0,
         category: "special",
-        description: "Clicking gives 2x more Drims"
+        description: "Each level makes clicking give +1 more Drims"
     },
     special2: {
         id: "special2",
@@ -200,7 +143,7 @@ const upgrades = {
         emoji: "🤲",
         baseCost: 5000,
         costMultiplier: 2,
-        baseEffect: 2,
+        baseEffect: 1, // Just a one-time purchase
         owned: 0,
         category: "special",
         description: "Double all your Drims (once)"
@@ -211,10 +154,10 @@ const upgrades = {
         emoji: "🔁",
         baseCost: 50000,
         costMultiplier: 2,
-        baseEffect: 1.1,
+        baseEffect: 0.1, // +0.1 per generator per level
         owned: 0,
         category: "special",
-        description: "Generators generate 10% more"
+        description: "Each level makes generators produce +0.1 more Drims"
     },
     special4: {
         id: "special4",
@@ -222,10 +165,10 @@ const upgrades = {
         emoji: "🎲",
         baseCost: 5e5,
         costMultiplier: 2,
-        baseEffect: 0.1,
+        baseEffect: 0.05, // +5% chance per level
         owned: 0,
         category: "special",
-        description: "10% chance for 10x click value"
+        description: "Each level gives +5% chance for 10x click value"
     },
     special5: {
         id: "special5",
@@ -233,14 +176,14 @@ const upgrades = {
         emoji: "⌛",
         baseCost: 5e6,
         costMultiplier: 2,
-        baseEffect: 2,
+        baseEffect: 0.5, // +0.5x speed per level
         owned: 0,
         category: "special",
-        description: "Time flows faster (2x game speed)"
+        description: "Each level makes time flow +0.5x faster"
     }
 };
 
-// Rebirth Upgrades (now infinite)
+// Rebirth Upgrades (all additive)
 const rebirthUpgrades = {
     rb1: {
         id: "rb1",
@@ -248,9 +191,9 @@ const rebirthUpgrades = {
         emoji: "🚀",
         baseCost: 1,
         costMultiplier: 1.5,
-        baseEffect: 0.5,
+        baseEffect: 100, // +100 starting Drims per level
         owned: 0,
-        description: "Start with +0.5x multiplier per level after rebirth"
+        description: "Each level gives +100 Drims when you rebirth"
     },
     rb2: {
         id: "rb2",
@@ -258,9 +201,9 @@ const rebirthUpgrades = {
         emoji: "💰",
         baseCost: 3,
         costMultiplier: 1.5,
-        baseEffect: 0.3,
+        baseEffect: 0.1, // +0.1 per generator per level
         owned: 0,
-        description: "All generators produce +0.3x more per level"
+        description: "Each level makes generators produce +0.1 more Drims"
     },
     rb3: {
         id: "rb3",
@@ -268,9 +211,9 @@ const rebirthUpgrades = {
         emoji: "⚡",
         baseCost: 5,
         costMultiplier: 1.5,
-        baseEffect: 0.5,
+        baseEffect: 1, // +1 click power per level
         owned: 0,
-        description: "Click power is +0.5x stronger per level"
+        description: "Each level makes clicking give +1 more Drims"
     },
     rb4: {
         id: "rb4",
@@ -278,9 +221,9 @@ const rebirthUpgrades = {
         emoji: "♾️",
         baseCost: 10,
         costMultiplier: 1.5,
-        baseEffect: 0.1,
+        baseEffect: 0.01, // +1% to all production per level
         owned: 0,
-        description: "Permanent +0.1x to all multipliers per level"
+        description: "Each level gives +1% to all Drim production"
     },
     rb5: {
         id: "rb5",
@@ -288,13 +231,154 @@ const rebirthUpgrades = {
         emoji: "🌌",
         baseCost: 20,
         costMultiplier: 1.5,
-        baseEffect: 0.2,
+        baseEffect: 0.05, // +5% to all production per level
         owned: 0,
-        description: "Unlock cosmic generators (+0.2x boost per level)"
+        description: "Each level gives +5% to all Drim production"
     }
 };
 
-// Initialize the game
+// Get multiplier for an upgrade (now completely additive)
+function getMultiplierForUpgrade(upgrade) {
+    let multiplier = 1;
+    
+    // Apply rebirth upgrades (additive)
+    if (game.rebirthUpgrades.rb2.owned > 0) {
+        multiplier += game.rebirthUpgrades.rb2.baseEffect * game.rebirthUpgrades.rb2.owned;
+    }
+    
+    // Apply special upgrades (additive)
+    if (game.upgrades.special3.owned > 0 && upgrade.category === "generators") {
+        multiplier += game.upgrades.special3.baseEffect * game.upgrades.special3.owned;
+    }
+    
+    // Apply rebirth global multiplier (additive)
+    if (game.rebirthUpgrades.rb4.owned > 0) {
+        multiplier += game.rebirthUpgrades.rb4.baseEffect * game.rebirthUpgrades.rb4.owned;
+    }
+    
+    // Apply cosmic boost if purchased (additive)
+    if (game.rebirthUpgrades.rb5.owned > 0) {
+        multiplier += game.rebirthUpgrades.rb5.baseEffect * game.rebirthUpgrades.rb5.owned;
+    }
+    
+    return multiplier;
+}
+
+// Handle click on main emoji (updated for additive bonuses)
+function handleClick() {
+    let clickValue = 1;
+    
+    // Apply special upgrades (additive)
+    if (game.upgrades.special1.owned > 0) {
+        clickValue += game.upgrades.special1.baseEffect * game.upgrades.special1.owned;
+    }
+    
+    // Apply rebirth upgrades (additive)
+    if (game.rebirthUpgrades.rb3.owned > 0) {
+        clickValue += game.rebirthUpgrades.rb3.baseEffect * game.rebirthUpgrades.rb3.owned;
+    }
+    
+    // Lucky chance (additive chance)
+    if (game.upgrades.special4.owned > 0 && 
+        Math.random() < (game.upgrades.special4.baseEffect * game.upgrades.special4.owned)) {
+        clickValue *= 10;
+        createParticles(30, 'gold');
+    } else {
+        createParticles(10, 'white');
+    }
+    
+    game.currency += clickValue;
+    game.totalCurrency += clickValue;
+    
+    // Visual feedback
+    const emoji = document.getElementById('click-emoji');
+    emoji.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        emoji.style.transform = 'scale(1)';
+    }, 100);
+    
+    updateUI();
+}
+
+// Calculate DPS (updated for additive bonuses)
+function calculateDPS() {
+    let dps = 0;
+    
+    // Add generator contributions
+    for (const key in game.upgrades) {
+        const upgrade = game.upgrades[key];
+        if (upgrade.category === 'generators' && upgrade.owned > 0) {
+            const baseValue = upgrade.baseEffect * upgrade.owned;
+            const multiplier = getMultiplierForUpgrade(upgrade);
+            dps += baseValue * (1 + multiplier); // Now additive
+        }
+    }
+    
+    // Apply time multiplier if purchased (still multiplicative)
+    if (game.upgrades.special5.owned > 0) {
+        dps *= (1 + game.upgrades.special5.baseEffect * game.upgrades.special5.owned);
+    }
+    
+    game.dps = dps;
+}
+
+// Format upgrade effect display (updated for additive)
+function formatUpgradeEffect(upgrade) {
+    if (upgrade.category === 'generators') {
+        const baseValue = upgrade.baseEffect;
+        const multiplier = getMultiplierForUpgrade(upgrade);
+        return `${formatNumber(baseValue * (1 + multiplier))}/s`;
+    } else if (upgrade.category === 'special') {
+        if (upgrade.id === 'special1') {
+            return `+${formatNumber(upgrade.baseEffect * upgrade.owned)} Drims per click`;
+        } else if (upgrade.id === 'special3') {
+            return `+${formatNumber(upgrade.baseEffect * upgrade.owned)} per generator`;
+        } else if (upgrade.id === 'special4') {
+            return `${formatNumber(upgrade.baseEffect * upgrade.owned * 100)}% chance for 10x`;
+        } else if (upgrade.id === 'special5') {
+            return `+${formatNumber(upgrade.baseEffect * upgrade.owned * 100)}% speed`;
+        } else {
+            return `${formatNumber(upgrade.baseEffect)}x`;
+        }
+    }
+}
+
+// Perform rebirth (updated for additive bonuses)
+function performRebirth() {
+    const points = Math.floor(Math.sqrt(game.totalCurrency / 1e6));
+    
+    if (points < 1) {
+        alert("You need at least 1,000,000 total Drims to rebirth!");
+        return;
+    }
+    
+    if (confirm(`Rebirth for ${points} points? This will reset your progress but give you permanent bonuses!`)) {
+        game.rebirths++;
+        game.rebirthPoints += points;
+        
+        // Reset game state but keep rebirth info
+        game.currency = 0;
+        game.totalCurrency = 0;
+        game.dps = 0;
+        
+        // Reset upgrades
+        for (const key in game.upgrades) {
+            game.upgrades[key].owned = 0;
+        }
+        
+        // Apply starter bonus if purchased (additive)
+        if (game.rebirthUpgrades.rb1.owned > 0) {
+            game.currency = game.rebirthUpgrades.rb1.baseEffect * game.rebirthUpgrades.rb1.owned;
+        }
+        
+        renderUpgrades();
+        renderRebirthUpgrades();
+        calculateDPS();
+        updateUI();
+    }
+}
+
+// Initialize the game (remove multiplier tab)
 function initGame() {
     // Initialize upgrades
     for (const key in upgrades) {
@@ -313,8 +397,8 @@ function initGame() {
     // Load saved game
     loadGame();
     
-    // Setup UI
-    setupUI();
+    // Setup UI (remove multiplier tab button)
+    document.querySelector('[data-tab="multipliers"]').remove();
     
     // Start game loop
     game.lastTick = Date.now();
