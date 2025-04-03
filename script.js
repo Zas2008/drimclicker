@@ -132,7 +132,7 @@ const upgrades = {
         category: "generators",
         description: "me"
     },
-        generator11: {
+        generator12: {
         id: "generator12",
         name: "👷 Chinese Guy",
         emoji: "👷",
