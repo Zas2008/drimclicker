@@ -1,5 +1,3 @@
-
-// Game State
 const game = {
     currency: 0,
     totalCurrency: 0,
@@ -12,9 +10,7 @@ const game = {
     version: 1
 };
 
-// Upgrade Definitions
 const upgrades = {
-    // Generators
     generator1: {
         id: "generator1",
         name: "👷 Worker",
@@ -125,7 +121,7 @@ const upgrades = {
         category: "generators",
         description: "Harness the power of the cosmos"
     },
-        generator11: {
+    generator11: {
         id: "generator11",
         name: "⚙️ ZAS",
         emoji: "⚙️",
@@ -136,8 +132,6 @@ const upgrades = {
         category: "generators",
         description: "me"
     },
-    
-    // Multipliers
     multiplier1: {
         id: "multiplier1",
         name: "✨ Polish",
@@ -193,8 +187,6 @@ const upgrades = {
         category: "multipliers",
         description: "Mythical production boost (8x multiplier)"
     },
-    
-    // Special Upgrades
     special1: {
         id: "special1",
         name: "🎯 Precision",
@@ -252,118 +244,138 @@ const upgrades = {
     }
 };
 
-// Rebirth Upgrades
 const rebirthUpgrades = {
     rb1: {
         id: "rb1",
         name: "🚀 Starter",
         emoji: "🚀",
-        cost: 1,
-        effect: 2,
-        description: "Start with 2x multiplier after rebirth",
+        baseCost: 1,
+        costMultiplier: 1.5,
+        baseEffect: 2,
+        owned: 0,
+        description: "Start with 2x multiplier after rebirth (1.5x per level)",
         purchased: false
     },
     rb2: {
         id: "rb2",
         name: "💰 Investor",
         emoji: "💰",
-        cost: 3,
-        effect: 1.5,
-        description: "All generators produce 1.5x more",
+        baseCost: 3,
+        costMultiplier: 1.5,
+        baseEffect: 1.5,
+        owned: 0,
+        description: "All generators produce 1.5x more (1.5x per level)",
         purchased: false
     },
     rb3: {
         id: "rb3",
         name: "⚡ Energize",
         emoji: "⚡",
-        cost: 5,
-        effect: 2,
-        description: "Click power is 2x stronger",
+        baseCost: 5,
+        costMultiplier: 1.5,
+        baseEffect: 2,
+        owned: 0,
+        description: "Click power is 2x stronger (1.5x per level)",
         purchased: false
     },
     rb4: {
         id: "rb4",
         name: "♾️ Infinite",
         emoji: "♾️",
-        cost: 10,
-        effect: 1.2,
-        description: "Permanent 1.2x to all multipliers",
+        baseCost: 10,
+        costMultiplier: 1.5,
+        baseEffect: 1.2,
+        owned: 0,
+        description: "Permanent 1.2x to all multipliers (1.5x per level)",
         purchased: false
     },
     rb5: {
         id: "rb5",
         name: "🌌 Cosmic",
         emoji: "🌌",
-        cost: 20,
-        effect: 1.5,
-        description: "Unlock cosmic generators (1.5x boost)",
+        baseCost: 20,
+        costMultiplier: 1.5,
+        baseEffect: 1.5,
+        owned: 0,
+        description: "Unlock cosmic generators (1.5x boost per level)",
         purchased: false
     }
 };
 
-// Initialize the game
 function initGame() {
-    // Initialize upgrades
     for (const key in upgrades) {
         if (!game.upgrades[key]) {
             game.upgrades[key] = {...upgrades[key]};
         }
     }
     
-    // Initialize rebirth upgrades
     for (const key in rebirthUpgrades) {
         if (!game.rebirthUpgrades[key]) {
             game.rebirthUpgrades[key] = {...rebirthUpgrades[key]};
         }
     }
     
-    // Load saved game
     loadGame();
-    
-    // Setup UI
     setupUI();
-    
-    // Start game loop
     game.lastTick = Date.now();
     requestAnimationFrame(gameLoop);
-    
-    // Calculate initial DPS
     calculateDPS();
     updateUI();
-    
-    // Render all upgrades immediately
     renderUpgrades();
     renderRebirthUpgrades();
+    setInterval(saveGame, 60000);
 }
 
-// Game loop
 function gameLoop() {
     const now = Date.now();
     const deltaTime = (now - game.lastTick) / 1000;
     
-    // Generate passive income
     if (deltaTime > 0) {
         const income = game.dps * deltaTime;
         game.currency += income;
         game.totalCurrency += income;
+        updateUpgradeAffordability();
     }
     
     game.lastTick = now;
-    
-    // Update UI
     updateUI();
-    
-    // Continue the loop
     requestAnimationFrame(gameLoop);
 }
 
-// Setup UI elements
+function updateUpgradeAffordability() {
+    const upgradeElements = document.querySelectorAll('.upgrade');
+    upgradeElements.forEach(element => {
+        const upgradeId = element.getAttribute('data-id');
+        if (upgradeId) {
+            const upgrade = game.upgrades[upgradeId];
+            const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
+            if (game.currency >= cost) {
+                element.classList.remove('unaffordable');
+            } else {
+                element.classList.add('unaffordable');
+            }
+        }
+    });
+
+    const rebirthElements = document.querySelectorAll('.rebirth-upgrade');
+    rebirthElements.forEach(element => {
+        const upgradeId = element.getAttribute('data-id');
+        if (upgradeId) {
+            const upgrade = game.rebirthUpgrades[upgradeId];
+            const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
+            if (game.rebirthPoints >= cost && !upgrade.purchased) {
+                element.classList.remove('unaffordable');
+            } else {
+                element.classList.add('unaffordable');
+            }
+        }
+    });
+}
+
 function setupUI() {
-    // Click emoji
     const clickEmoji = document.getElementById('click-emoji');
     clickEmoji.addEventListener('click', handleClick);
     
-    // Tab switching
     const tabButtons = document.querySelectorAll('.tab-btn');
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -376,29 +388,22 @@ function setupUI() {
         });
     });
     
-    // Rebirth button
     document.getElementById('rebirth-btn').addEventListener('click', performRebirth);
-    
-    // Save/Reset buttons
     document.getElementById('save-btn').addEventListener('click', saveGame);
     document.getElementById('reset-btn').addEventListener('click', resetGame);
 }
 
-// Handle click on main emoji
 function handleClick() {
     let clickValue = 1;
     
-    // Apply special upgrades
     if (game.upgrades.special1.owned > 0) {
         clickValue *= Math.pow(game.upgrades.special1.baseEffect, game.upgrades.special1.owned);
     }
     
-    // Apply rebirth upgrades
-    if (game.rebirthUpgrades.rb3.purchased) {
-        clickValue *= game.rebirthUpgrades.rb3.effect;
+    if (game.rebirthUpgrades.rb3.owned > 0) {
+        clickValue *= Math.pow(game.rebirthUpgrades.rb3.baseEffect, game.rebirthUpgrades.rb3.owned);
     }
     
-    // Lucky chance
     if (game.upgrades.special4.owned > 0 && Math.random() < (game.upgrades.special4.baseEffect * game.upgrades.special4.owned)) {
         clickValue *= 10;
         createParticles(30, 'gold');
@@ -409,7 +414,6 @@ function handleClick() {
     game.currency += clickValue;
     game.totalCurrency += clickValue;
     
-    // Visual feedback
     const emoji = document.getElementById('click-emoji');
     emoji.style.transform = 'scale(0.95)';
     setTimeout(() => {
@@ -419,7 +423,6 @@ function handleClick() {
     updateUI();
 }
 
-// Create visual particles
 function createParticles(count, color) {
     const container = document.getElementById('particles-container');
     const emojiRect = document.getElementById('click-emoji').getBoundingClientRect();
@@ -454,14 +457,11 @@ function createParticles(count, color) {
     }
 }
 
-// Render all upgrades
 function renderUpgrades() {
-    // Clear containers
     document.getElementById('generators-container').innerHTML = '';
     document.getElementById('multipliers-container').innerHTML = '';
     document.getElementById('special-container').innerHTML = '';
     
-    // Render each upgrade
     for (const key in game.upgrades) {
         const upgrade = game.upgrades[key];
         const containerId = `${upgrade.category}-container`;
@@ -474,10 +474,10 @@ function renderUpgrades() {
     }
 }
 
-// Create an upgrade element
 function createUpgradeElement(upgrade) {
     const element = document.createElement('div');
     element.className = 'upgrade';
+    element.setAttribute('data-id', upgrade.id);
     
     const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
     
@@ -499,7 +499,6 @@ function createUpgradeElement(upgrade) {
     return element;
 }
 
-// Format upgrade effect display
 function formatUpgradeEffect(upgrade) {
     if (upgrade.category === 'generators') {
         return `${formatNumber(upgrade.baseEffect * getMultiplierForUpgrade(upgrade))}/s`;
@@ -514,11 +513,9 @@ function formatUpgradeEffect(upgrade) {
     }
 }
 
-// Get multiplier for an upgrade
 function getMultiplierForUpgrade(upgrade) {
     let multiplier = 1;
     
-    // Apply multiplier upgrades
     for (const key in game.upgrades) {
         const up = game.upgrades[key];
         if (up.category === 'multipliers' && up.owned > 0) {
@@ -526,25 +523,21 @@ function getMultiplierForUpgrade(upgrade) {
         }
     }
     
-    // Apply rebirth upgrades
-    if (game.rebirthUpgrades.rb2.purchased) {
-        multiplier *= game.rebirthUpgrades.rb2.effect;
+    if (game.rebirthUpgrades.rb2.owned > 0) {
+        multiplier *= Math.pow(game.rebirthUpgrades.rb2.baseEffect, game.rebirthUpgrades.rb2.owned);
     }
     
-    // Apply special upgrades
     if (game.upgrades.special3.owned > 0 && upgrade.category === 'generators') {
         multiplier *= Math.pow(game.upgrades.special3.baseEffect, game.upgrades.special3.owned);
     }
     
-    // Apply rebirth global multiplier
-    if (game.rebirthUpgrades.rb4.purchased) {
-        multiplier *= game.rebirthUpgrades.rb4.effect;
+    if (game.rebirthUpgrades.rb4.owned > 0) {
+        multiplier *= Math.pow(game.rebirthUpgrades.rb4.baseEffect, game.rebirthUpgrades.rb4.owned);
     }
     
     return multiplier;
 }
 
-// Purchase an upgrade
 function purchaseUpgrade(upgradeId) {
     const upgrade = game.upgrades[upgradeId];
     const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
@@ -553,7 +546,6 @@ function purchaseUpgrade(upgradeId) {
         game.currency -= cost;
         upgrade.owned++;
         
-        // Special effects
         if (upgradeId === 'special2') {
             game.currency *= upgrade.baseEffect;
             game.totalCurrency *= upgrade.baseEffect;
@@ -565,11 +557,9 @@ function purchaseUpgrade(upgradeId) {
     }
 }
 
-// Calculate DPS
 function calculateDPS() {
     let dps = 0;
     
-    // Add generator contributions
     for (const key in game.upgrades) {
         const upgrade = game.upgrades[key];
         if (upgrade.category === 'generators' && upgrade.owned > 0) {
@@ -577,7 +567,6 @@ function calculateDPS() {
         }
     }
     
-    // Apply time multiplier if purchased
     if (game.upgrades.special5.owned > 0) {
         dps *= Math.pow(game.upgrades.special5.baseEffect, game.upgrades.special5.owned);
     }
@@ -585,7 +574,6 @@ function calculateDPS() {
     game.dps = dps;
 }
 
-// Render rebirth upgrades
 function renderRebirthUpgrades() {
     const container = document.getElementById('rebirth-upgrades-container');
     container.innerHTML = '';
@@ -594,40 +582,46 @@ function renderRebirthUpgrades() {
         const upgrade = game.rebirthUpgrades[key];
         const element = document.createElement('div');
         element.className = 'rebirth-upgrade';
+        element.setAttribute('data-id', upgrade.id);
         
-        if (game.rebirthPoints < upgrade.cost || upgrade.purchased) {
+        const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
+        
+        if (game.rebirthPoints < cost || upgrade.purchased) {
             element.classList.add('unaffordable');
         }
         
-        if (upgrade.purchased) {
+        element.addEventListener('click', () => purchaseRebirthUpgrade(upgrade.id));
+        
+        if (upgrade.owned > 0) {
             element.innerHTML = `
                 <div class="upgrade-emoji">${upgrade.emoji}</div>
                 <div class="upgrade-name">${upgrade.name}</div>
-                <div class="upgrade-effect">Purchased!</div>
+                <div class="upgrade-level">Level: ${upgrade.owned}</div>
+                <div class="upgrade-effect">Effect: ${formatNumber(Math.pow(upgrade.baseEffect, upgrade.owned))}x</div>
+                <div class="upgrade-next-cost">Next Level: ${formatNumber(cost)} RP</div>
                 <div class="tooltip">${upgrade.description}</div>
             `;
         } else {
             element.innerHTML = `
                 <div class="upgrade-emoji">${upgrade.emoji}</div>
                 <div class="upgrade-name">${upgrade.name}</div>
-                <div class="upgrade-price">${upgrade.cost} RP</div>
-                <div class="upgrade-effect">Effect: ${formatNumber(upgrade.effect)}x</div>
+                <div class="upgrade-price">${formatNumber(cost)} RP</div>
+                <div class="upgrade-effect">Effect: ${formatNumber(upgrade.baseEffect)}x</div>
                 <div class="tooltip">${upgrade.description}</div>
             `;
         }
         
-        element.addEventListener('click', () => purchaseRebirthUpgrade(upgrade.id));
         container.appendChild(element);
     }
 }
 
-// Purchase rebirth upgrade
 function purchaseRebirthUpgrade(upgradeId) {
     const upgrade = game.rebirthUpgrades[upgradeId];
+    const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
     
-    if (!upgrade.purchased && game.rebirthPoints >= upgrade.cost) {
-        game.rebirthPoints -= upgrade.cost;
-        upgrade.purchased = true;
+    if (game.rebirthPoints >= cost) {
+        game.rebirthPoints -= cost;
+        upgrade.owned++;
         
         renderRebirthUpgrades();
         calculateDPS();
@@ -635,7 +629,6 @@ function purchaseRebirthUpgrade(upgradeId) {
     }
 }
 
-// Perform rebirth
 function performRebirth() {
     const points = Math.floor(Math.sqrt(game.totalCurrency / 1e6));
     
@@ -647,20 +640,16 @@ function performRebirth() {
     if (confirm(`Rebirth for ${points} points? This will reset your progress but give you permanent bonuses!`)) {
         game.rebirths++;
         game.rebirthPoints += points;
-        
-        // Reset game state but keep rebirth info
         game.currency = 0;
         game.totalCurrency = 0;
         game.dps = 0;
         
-        // Reset upgrades
         for (const key in game.upgrades) {
             game.upgrades[key].owned = 0;
         }
         
-        // Apply starter bonus if purchased
-        if (game.rebirthUpgrades.rb1.purchased) {
-            game.currency = 100 * game.rebirthUpgrades.rb1.effect;
+        if (game.rebirthUpgrades.rb1.owned > 0) {
+            game.currency = 100 * Math.pow(game.rebirthUpgrades.rb1.baseEffect, game.rebirthUpgrades.rb1.owned);
         }
         
         renderUpgrades();
@@ -670,37 +659,29 @@ function performRebirth() {
     }
 }
 
-// Update UI elements
 function updateUI() {
-    // Currency display
     document.getElementById('currency').textContent = formatNumber(game.currency);
     document.getElementById('dps').textContent = formatNumber(game.dps);
-    
-    // Rebirth info
     document.getElementById('rebirth-count').textContent = game.rebirths;
     document.getElementById('rebirth-points').textContent = game.rebirthPoints;
     document.getElementById('rebirth-multiplier').textContent = formatNumber(calculateRebirthMultiplier());
     document.getElementById('next-rebirth-points').textContent = formatNumber(Math.floor(Math.sqrt(game.totalCurrency / 1e6)));
-    
-    // Enable/disable rebirth button
     document.getElementById('rebirth-btn').disabled = Math.floor(Math.sqrt(game.totalCurrency / 1e6)) < 1;
 }
 
-// Calculate rebirth multiplier
 function calculateRebirthMultiplier() {
     let multiplier = 1;
     multiplier *= 1 + Math.sqrt(game.rebirthPoints) / 10;
     
     for (const key in game.rebirthUpgrades) {
-        if (game.rebirthUpgrades[key].purchased) {
-            multiplier *= game.rebirthUpgrades[key].effect;
+        if (game.rebirthUpgrades[key].owned > 0) {
+            multiplier *= Math.pow(game.rebirthUpgrades[key].baseEffect, game.rebirthUpgrades[key].owned);
         }
     }
     
     return multiplier;
 }
 
-// Format large numbers
 function formatNumber(num) {
     if (num < 1000) return Math.floor(num);
     if (num < 1e6) return (num / 1000).toFixed(1) + 'K';
@@ -710,7 +691,6 @@ function formatNumber(num) {
     return (num / 1e15).toFixed(1) + 'Q';
 }
 
-// Save game
 function saveGame() {
     const saveData = {
         currency: game.currency,
@@ -718,13 +698,18 @@ function saveGame() {
         rebirths: game.rebirths,
         rebirthPoints: game.rebirthPoints,
         upgrades: game.upgrades,
-        rebirthUpgrades: game.rebirthUpgrades,
+        rebirthUpgrades: {},
         version: game.version
     };
     
+    for (const key in game.rebirthUpgrades) {
+        saveData.rebirthUpgrades[key] = {
+            owned: game.rebirthUpgrades[key].owned
+        };
+    }
+    
     localStorage.setItem('drimclicker_save', JSON.stringify(saveData));
     
-    // Visual feedback
     const saveBtn = document.getElementById('save-btn');
     saveBtn.textContent = 'Saved!';
     setTimeout(() => {
@@ -732,7 +717,6 @@ function saveGame() {
     }, 2000);
 }
 
-// Load game
 function loadGame() {
     const saveData = localStorage.getItem('drimclicker_save');
     
@@ -757,7 +741,7 @@ function loadGame() {
                 if (parsed.rebirthUpgrades) {
                     for (const key in parsed.rebirthUpgrades) {
                         if (game.rebirthUpgrades[key]) {
-                            game.rebirthUpgrades[key].purchased = parsed.rebirthUpgrades[key].purchased || false;
+                            game.rebirthUpgrades[key].owned = parsed.rebirthUpgrades[key].owned || 0;
                         }
                     }
                 }
@@ -768,7 +752,6 @@ function loadGame() {
     }
 }
 
-// Reset game
 function resetGame() {
     if (confirm('Are you sure you want to reset ALL progress? This cannot be undone!')) {
         localStorage.removeItem('drimclicker_save');
@@ -776,5 +759,4 @@ function resetGame() {
     }
 }
 
-// Start the game
 window.onload = initGame;
