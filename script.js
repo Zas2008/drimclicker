@@ -131,7 +131,7 @@ const upgrades = {
         name: "✨ Polish",
         emoji: "✨",
         baseCost: 100,
-        costMultiplier: 1.5,
+        costMultiplier: 150,
         baseEffect: 1.5,
         owned: 0,
         category: "multipliers",
