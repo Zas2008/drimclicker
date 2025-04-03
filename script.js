@@ -28,61 +28,20 @@ const upgrades = {
     generator13: { id: "generator13", name: "🌙 Moon", emoji: "🌙", baseCost: 1e14, costMultiplier: 1.15, baseEffect: 6e8, owned: 0, category: "generators", description: "Lunar Drim mining" },
     generator14: { id: "generator14", name: "🪐 Saturn", emoji: "🪐", baseCost: 1e15, costMultiplier: 1.15, baseEffect: 4.5e9, owned: 0, category: "generators", description: "Ringed planet Drim factory" },
     generator15: { id: "generator15", name: "🌀 Galaxy", emoji: "🌀", baseCost: 1e16, costMultiplier: 1.15, baseEffect: 3.2e10, owned: 0, category: "generators", description: "Galactic Drim production" },
-    generator16: { id: "generator16", name: "✨ Nebula", emoji: "✨", baseCost: 1e17, costMultiplier: 1.15, baseEffect: 2.4e11, owned: 0, category: "generators", description: "Cosmic dust creating Drims" },
-    generator17: { id: "generator17", name: "💫 Quasar", emoji: "💫", baseCost: 1e18, costMultiplier: 1.15, baseEffect: 1.8e12, owned: 0, category: "generators", description: "Active galactic nucleus Drims" },
-    generator18: { id: "generator18", name: "🕰️ Time", emoji: "🕰️", baseCost: 1e19, costMultiplier: 1.15, baseEffect: 1.3e13, owned: 0, category: "generators", description: "Drims from the fabric of time" },
-    generator19: { id: "generator19", name: "⚡ Energy", emoji: "⚡", baseCost: 1e20, costMultiplier: 1.15, baseEffect: 1e14, owned: 0, category: "generators", description: "Pure energy converted to Drims" },
-    generator20: { id: "generator20", name: "♾️ Infinity", emoji: "♾️", baseCost: 1e21, costMultiplier: 1.15, baseEffect: 7.5e14, owned: 0, category: "generators", description: "Infinite Drim generation" },
-    generator21: { id: "generator21", name: "🔮 Oracle", emoji: "🔮", baseCost: 1e22, costMultiplier: 1.15, baseEffect: 5.6e15, owned: 0, category: "generators", description: "Predicts future Drims" },
-    generator22: { id: "generator22", name: "🧿 Eye", emoji: "🧿", baseCost: 1e23, costMultiplier: 1.15, baseEffect: 4.2e16, owned: 0, category: "generators", description: "All-seeing Drim producer" },
-    generator23: { id: "generator23", name: "📜 Scroll", emoji: "📜", baseCost: 1e24, costMultiplier: 1.15, baseEffect: 3.1e17, owned: 0, category: "generators", description: "Ancient Drim knowledge" },
-    generator24: { id: "generator24", name: "🗝️ Key", emoji: "🗝️", baseCost: 1e25, costMultiplier: 1.15, baseEffect: 2.3e18, owned: 0, category: "generators", description: "Unlocks hidden Drims" },
-    generator25: { id: "generator25", name: "🧙 Wizard", emoji: "🧙", baseCost: 1e26, costMultiplier: 1.15, baseEffect: 1.7e19, owned: 0, category: "generators", description: "Magical Drim creation" },
-    generator26: { id: "generator26", name: "🏰 Castle", emoji: "🏰", baseCost: 1e27, costMultiplier: 1.15, baseEffect: 1.3e20, owned: 0, category: "generators", description: "Royal Drim treasury" },
-    generator27: { id: "generator27", name: "🧝 Elf", emoji: "🧝", baseCost: 1e28, costMultiplier: 1.15, baseEffect: 9.5e20, owned: 0, category: "generators", description: "Mythical Drim crafting" },
-    generator28: { id: "generator28", name: "🐉 Dragon", emoji: "🐉", baseCost: 1e29, costMultiplier: 1.15, baseEffect: 7e21, owned: 0, category: "generators", description: "Drim hoard" },
-    generator29: { id: "generator29", name: "🧚 Fairy", emoji: "🧚", baseCost: 1e30, costMultiplier: 1.15, baseEffect: 5.2e22, owned: 0, category: "generators", description: "Enchanted Drims" },
-    generator30: { id: "generator30", name: "🦄 Unicorn", emoji: "🦄", baseCost: 1e31, costMultiplier: 1.15, baseEffect: 3.9e23, owned: 0, category: "generators", description: "Magical Drim horn" },
-    generator31: { id: "generator31", name: "🧞 Genie", emoji: "🧞", baseCost: 1e32, costMultiplier: 1.15, baseEffect: 2.9e24, owned: 0, category: "generators", description: "Wishes for Drims" },
-    generator32: { id: "generator32", name: "🏆 Trophy", emoji: "🏆", baseCost: 1e33, costMultiplier: 1.15, baseEffect: 2.2e25, owned: 0, category: "generators", description: "Prize-winning Drims" },
-    generator33: { id: "generator33", name: "💎 Diamond", emoji: "💎", baseCost: 1e34, costMultiplier: 1.15, baseEffect: 1.6e26, owned: 0, category: "generators", description: "Precious Drim stones" },
-    generator34: { id: "generator34", name: "👑 Crown", emoji: "👑", baseCost: 1e35, costMultiplier: 1.15, baseEffect: 1.2e27, owned: 0, category: "generators", description: "Royal Drim authority" },
-    generator35: { id: "generator35", name: "⚔️ Sword", emoji: "⚔️", baseCost: 1e36, costMultiplier: 1.15, baseEffect: 9e27, owned: 0, category: "generators", description: "Drims from conquest" },
-    generator36: { id: "generator36", name: "🛡️ Shield", emoji: "🛡️", baseCost: 1e37, costMultiplier: 1.15, baseEffect: 6.7e28, owned: 0, category: "generators", description: "Protected Drim stash" },
-    generator37: { id: "generator37", name: "🏹 Bow", emoji: "🏹", baseCost: 1e38, costMultiplier: 1.15, baseEffect: 5e29, owned: 0, category: "generators", description: "Precise Drim shots" },
-    generator38: { id: "generator38", name: "🔱 Trident", emoji: "🔱", baseCost: 1e39, costMultiplier: 1.15, baseEffect: 3.7e30, owned: 0, category: "generators", description: "Oceanic Drim power" },
-    generator39: { id: "generator39", name: "🧪 Potion", emoji: "🧪", baseCost: 1e40, costMultiplier: 1.15, baseEffect: 2.8e31, owned: 0, category: "generators", description: "Alchemical Drim creation" },
-    generator40: { id: "generator40", name: "📚 Book", emoji: "📚", baseCost: 1e41, costMultiplier: 1.15, baseEffect: 2.1e32, owned: 0, category: "generators", description: "Drim knowledge" },
-    generator41: { id: "generator41", name: "🖋️ Pen", emoji: "🖋️", baseCost: 1e42, costMultiplier: 1.15, baseEffect: 1.6e33, owned: 0, category: "generators", description: "Write your own Drims" },
-    generator42: { id: "generator42", name: "🎨 Paint", emoji: "🎨", baseCost: 1e43, costMultiplier: 1.15, baseEffect: 1.2e34, owned: 0, category: "generators", description: "Artistic Drim creation" },
-    generator43: { id: "generator43", name: "🎭 Mask", emoji: "🎭", baseCost: 1e44, costMultiplier: 1.15, baseEffect: 9e34, owned: 0, category: "generators", description: "Dramatic Drim production" },
-    generator44: { id: "generator44", name: "🎻 Violin", emoji: "🎻", baseCost: 1e45, costMultiplier: 1.15, baseEffect: 6.7e35, owned: 0, category: "generators", description: "Musical Drim notes" },
-    generator45: { id: "generator45", name: "🎹 Piano", emoji: "🎹", baseCost: 1e46, costMultiplier: 1.15, baseEffect: 5e36, owned: 0, category: "generators", description: "Harmonic Drim waves" },
-    generator46: { id: "generator46", name: "🎲 Dice", emoji: "🎲", baseCost: 1e47, costMultiplier: 1.15, baseEffect: 3.7e37, owned: 0, category: "generators", description: "Random Drim rolls" },
-    generator47: { id: "generator47", name: "🃏 Card", emoji: "🃏", baseCost: 1e48, costMultiplier: 1.15, baseEffect: 2.8e38, owned: 0, category: "generators", description: "Drim card tricks" },
-    generator48: { id: "generator48", name: "🧩 Puzzle", emoji: "🧩", baseCost: 1e49, costMultiplier: 1.15, baseEffect: 2.1e39, owned: 0, category: "generators", description: "Drim piece assembly" },
-    generator49: { id: "generator49", name: "♟️ Chess", emoji: "♟️", baseCost: 1e50, costMultiplier: 1.15, baseEffect: 1.6e40, owned: 0, category: "generators", description: "Strategic Drim moves" },
-    generator50: { id: "generator50", name: "🎯 Target", emoji: "🎯", baseCost: 1e51, costMultiplier: 1.15, baseEffect: 1.2e41, owned: 0, category: "generators", description: "Bullseye Drim shots" },
-    generator51: { id: "generator51", name: "🏈 Football", emoji: "🏈", baseCost: 1e52, costMultiplier: 1.15, baseEffect: 9e41, owned: 0, category: "generators", description: "Sporty Drim plays" },
-    generator52: { id: "generator52", name: "⚽ Soccer", emoji: "⚽", baseCost: 1e53, costMultiplier: 1.15, baseEffect: 6.7e42, owned: 0, category: "generators", description: "Global Drim sport" },
-    generator53: { id: "generator53", name: "🏀 Basketball", emoji: "🏀", baseCost: 1e54, costMultiplier: 1.15, baseEffect: 5e43, owned: 0, category: "generators", description: "Bouncing Drim balls" },
-    generator54: { id: "generator54", name: "🎾 Tennis", emoji: "🎾", baseCost: 1e55, costMultiplier: 1.15, baseEffect: 3.7e44, owned: 0, category: "generators", description: "Drim serves" },
-    generator55: { id: "generator55", name: "🏏 Cricket", emoji: "🏏", baseCost: 1e56, costMultiplier: 1.15, baseEffect: 2.8e45, owned: 0, category: "generators", description: "Drim wickets" },
-    generator56: { id: "generator56", name: "🏒 Hockey", emoji: "🏒", baseCost: 1e57, costMultiplier: 1.15, baseEffect: 2.1e46, owned: 0, category: "generators", description: "Icy Drim shots" },
-    generator57: { id: "generator57", name: "🏓 Ping Pong", emoji: "🏓", baseCost: 1e58, costMultiplier: 1.15, baseEffect: 1.6e47, owned: 0, category: "generators", description: "Rapid Drim volleys" },
-    generator58: { id: "generator58", name: "🏸 Badminton", emoji: "🏸", baseCost: 1e59, costMultiplier: 1.15, baseEffect: 1.2e48, owned: 0, category: "generators", description: "Feathered Drim shuttle" },
-    generator59: { id: "generator59", name: "🥊 Boxing", emoji: "🥊", baseCost: 1e60, costMultiplier: 1.15, baseEffect: 9e48, owned: 0, category: "generators", description: "Drim punches" },
-    generator60: { id: "generator60", name: "🛹 Skateboard", emoji: "🛹", baseCost: 1e61, costMultiplier: 1.15, baseEffect: 6.7e49, owned: 0, category: "generators", description: "Drim tricks" },
-    special1: { id: "special1", name: "🎯 Precision", emoji: "🎯", baseCost: 500, costMultiplier: 1, baseEffect: 1, owned: 0, category: "special", description: "Clicking gives +1 more Drims" },
-    special2: { id: "special2", name: "🤲 Double", emoji: "🤲", baseCost: 5000, costMultiplier: 1, baseEffect: 1, owned: 0, category: "special", description: "Double all your Drims" },
-    special3: { id: "special3", name: "🔁 Loop", emoji: "🔁", baseCost: 50000, costMultiplier: 1, baseEffect: 0.1, owned: 0, category: "special", description: "Generators produce +0.1 more Drims" },
-    special4: { id: "special4", name: "🎲 Lucky", emoji: "🎲", baseCost: 5e5, costMultiplier: 1, baseEffect: 0.05, owned: 0, category: "special", description: "+5% chance for 10x click value" },
-    special5: { id: "special5", name: "⌛ Time", emoji: "⌛", baseCost: 5e6, costMultiplier: 1, baseEffect: 0.5, owned: 0, category: "special", description: "Time flows +0.5x faster" }
+    multiplier1: { id: "multiplier1", name: "📈 Boost", emoji: "📈", baseCost: 1000, costMultiplier: 1, baseEffect: 0.1, owned: 0, category: "multipliers", description: "Permanently increases all generator output by 10%" },
+    multiplier2: { id: "multiplier2", name: "🚀 Thruster", emoji: "🚀", baseCost: 5000, costMultiplier: 1, baseEffect: 0.25, owned: 0, category: "multipliers", description: "Permanently increases all generator output by 25%" },
+    multiplier3: { id: "multiplier3", name: "⚡ Surge", emoji: "⚡", baseCost: 25000, costMultiplier: 1, baseEffect: 0.5, owned: 0, category: "multipliers", description: "Permanently increases all generator output by 50%" },
+    multiplier4: { id: "multiplier4", name: "🌌 Quantum", emoji: "🌌", baseCost: 100000, costMultiplier: 1, baseEffect: 1, owned: 0, category: "multipliers", description: "Permanently doubles all generator output" },
+    special1: { id: "special1", name: "🎯 Precision", emoji: "🎯", baseCost: 500, costMultiplier: 1, baseEffect: 1, owned: 0, category: "special", description: "Clicking gives +1 more Drims (one-time)" },
+    special2: { id: "special2", name: "🤲 Double", emoji: "🤲", baseCost: 5000, costMultiplier: 1, baseEffect: 2, owned: 0, category: "special", description: "Double all your current Drims (one-time)" },
+    special3: { id: "special3", name: "🔁 Loop", emoji: "🔁", baseCost: 50000, costMultiplier: 1, baseEffect: 0.1, owned: 0, category: "special", description: "Generators produce +10% more Drims (one-time)" },
+    special4: { id: "special4", name: "🎲 Lucky", emoji: "🎲", baseCost: 5e5, costMultiplier: 1, baseEffect: 0.05, owned: 0, category: "special", description: "+5% chance for 10x click value (one-time)" },
+    special5: { id: "special5", name: "⌛ Time", emoji: "⌛", baseCost: 5e6, costMultiplier: 1, baseEffect: 0.5, owned: 0, category: "special", description: "Time flows +50% faster (one-time)" }
 };
 
 const rebirthUpgrades = {
     rb1: { id: "rb1", name: "🚀 Starter", emoji: "🚀", baseCost: 1, costMultiplier: 1.5, baseEffect: 100, owned: 0, description: "Each level gives +100 Drims when you rebirth" },
-    rb2: { id: "rb2", name: "💰 Investor", emoji: "💰", baseCost: 3, costMultiplier: 1.5, baseEffect: 0.1, owned: 0, description: "Each level makes generators produce +0.1 more Drims" },
+    rb2: { id: "rb2", name: "💰 Investor", emoji: "💰", baseCost: 3, costMultiplier: 1.5, baseEffect: 0.1, owned: 0, description: "Each level makes generators produce +10% more Drims" },
     rb3: { id: "rb3", name: "⚡ Energize", emoji: "⚡", baseCost: 5, costMultiplier: 1.5, baseEffect: 1, owned: 0, description: "Each level makes clicking give +1 more Drims" },
     rb4: { id: "rb4", name: "♾️ Infinite", emoji: "♾️", baseCost: 10, costMultiplier: 1.5, baseEffect: 0.01, owned: 0, description: "Each level gives +1% to all Drim production" },
     rb5: { id: "rb5", name: "🌌 Cosmic", emoji: "🌌", baseCost: 20, costMultiplier: 1.5, baseEffect: 0.05, owned: 0, description: "Each level gives +5% to all Drim production" },
@@ -90,12 +49,7 @@ const rebirthUpgrades = {
     rb7: { id: "rb7", name: "⚛️ Quantum", emoji: "⚛️", baseCost: 100, costMultiplier: 1.5, baseEffect: 0.2, owned: 0, description: "Each level gives +20% to all Drim production" },
     rb8: { id: "rb8", name: "🌀 Vortex", emoji: "🌀", baseCost: 200, costMultiplier: 1.5, baseEffect: 0.5, owned: 0, description: "Each level gives +50% to all Drim production" },
     rb9: { id: "rb9", name: "💥 Big Bang", emoji: "💥", baseCost: 500, costMultiplier: 1.5, baseEffect: 1, owned: 0, description: "Each level gives +100% to all Drim production" },
-    rb10: { id: "rb10", name: "👑 Supreme", emoji: "👑", baseCost: 1000, costMultiplier: 1.5, baseEffect: 2, owned: 0, description: "Each level gives +200% to all Drim production" },
-    rb11: { id: "rb11", name: "🌠 Ultimate", emoji: "🌠", baseCost: 2000, costMultiplier: 1.5, baseEffect: 5, owned: 0, description: "Each level gives +500% to all Drim production" },
-    rb12: { id: "rb12", name: "🔮 Omniscient", emoji: "🔮", baseCost: 5000, costMultiplier: 1.5, baseEffect: 10, owned: 0, description: "Each level gives +1000% to all Drim production" },
-    rb13: { id: "rb13", name: "♾️ Absolute", emoji: "♾️", baseCost: 10000, costMultiplier: 1.5, baseEffect: 20, owned: 0, description: "Each level gives +2000% to all Drim production" },
-    rb14: { id: "rb14", name: "💫 Eternal", emoji: "💫", baseCost: 20000, costMultiplier: 1.5, baseEffect: 50, owned: 0, description: "Each level gives +5000% to all Drim production" },
-    rb15: { id: "rb15", name: "🌌 Omnipotent", emoji: "🌌", baseCost: 50000, costMultiplier: 1.5, baseEffect: 100, owned: 0, description: "Each level gives +10000% to all Drim production" }
+    rb10: { id: "rb10", name: "👑 Supreme", emoji: "👑", baseCost: 1000, costMultiplier: 1.5, baseEffect: 2, owned: 0, description: "Each level gives +200% to all Drim production" }
 };
 
 const shopItems = {
@@ -108,73 +62,84 @@ const shopItems = {
     item7: { id: "item7", name: "☕ Coffee", emoji: "☕", baseCost: 150, description: "Hot brewed drink" },
     item8: { id: "item8", name: "🍵 Tea", emoji: "🍵", baseCost: 120, description: "Aromatic beverage" },
     item9: { id: "item9", name: "🍺 Beer", emoji: "🍺", baseCost: 400, description: "Fermented alcoholic drink" },
-    item10: { id: "item10", name: "🍷 Wine", emoji: "🍷", baseCost: 700, description: "Fermented grape juice" },
-    item11: { id: "item11", name: "🏆 Trophy", emoji: "🏆", baseCost: 5000, description: "Award for achievement" },
-    item12: { id: "item12", name: "💍 Ring", emoji: "💍", baseCost: 10000, description: "Circular band of precious metal" },
-    item13: { id: "item13", name: "💎 Diamond", emoji: "💎", baseCost: 50000, description: "Precious gemstone" },
-    item14: { id: "item14", name: "🏠 House", emoji: "🏠", baseCost: 100000, description: "A place to live" },
-    item15: { id: "item15", name: "🚗 Car", emoji: "🚗", baseCost: 500000, description: "Four-wheeled vehicle" },
-    item16: { id: "item16", name: "✈️ Plane", emoji: "✈️", baseCost: 1000000, description: "Flying machine" },
-    item17: { id: "item17", name: "🚢 Ship", emoji: "🚢", baseCost: 5000000, description: "Large watercraft" },
-    item18: { id: "item18", name: "🏰 Castle", emoji: "🏰", baseCost: 10000000, description: "Fortified residence" },
-    item19: { id: "item19", name: "🌍 Planet", emoji: "🌍", baseCost: 50000000, description: "Celestial body" },
-    item20: { id: "item20", name: "🌠 Comet", emoji: "🌠", baseCost: 100000000, description: "Icy small Solar System body" }
+    item10: { id: "item10", name: "🍷 Wine", emoji: "🍷", baseCost: 700, description: "Fermented grape juice" }
 };
 
 function getMultiplierForUpgrade(upgrade) {
     let multiplier = 1;
+    
     if (game.rebirthUpgrades.rb2.owned > 0) {
         multiplier += game.rebirthUpgrades.rb2.baseEffect * game.rebirthUpgrades.rb2.owned;
     }
+    
     if (game.upgrades.special3.owned > 0 && upgrade.category === "generators") {
-        multiplier += game.upgrades.special3.baseEffect * game.upgrades.special3.owned;
+        multiplier += game.upgrades.special3.baseEffect;
     }
+    
     if (game.rebirthUpgrades.rb4.owned > 0) {
         multiplier += game.rebirthUpgrades.rb4.baseEffect * game.rebirthUpgrades.rb4.owned;
     }
+    
     if (game.rebirthUpgrades.rb5.owned > 0) {
         multiplier += game.rebirthUpgrades.rb5.baseEffect * game.rebirthUpgrades.rb5.owned;
     }
+    
+    for (const key in game.upgrades) {
+        const up = game.upgrades[key];
+        if (up.category === 'multipliers' && up.owned > 0) {
+            multiplier += up.baseEffect;
+        }
+    }
+    
     return multiplier;
 }
 
 function handleClick() {
     let clickValue = 1;
+    
     if (game.upgrades.special1.owned > 0) {
-        clickValue += game.upgrades.special1.baseEffect * game.upgrades.special1.owned;
+        clickValue += game.upgrades.special1.baseEffect;
     }
+    
     if (game.rebirthUpgrades.rb3.owned > 0) {
         clickValue += game.rebirthUpgrades.rb3.baseEffect * game.rebirthUpgrades.rb3.owned;
     }
-    if (game.upgrades.special4.owned > 0 && Math.random() < (game.upgrades.special4.baseEffect * game.upgrades.special4.owned)) {
+    
+    if (game.upgrades.special4.owned > 0 && Math.random() < game.upgrades.special4.baseEffect) {
         clickValue *= 10;
         createParticles(30, 'gold');
     } else {
         createParticles(10, 'white');
     }
+    
     game.currency += clickValue;
     game.totalCurrency += clickValue;
+    
     const emoji = document.getElementById('click-emoji');
     emoji.style.transform = 'scale(0.95)';
     setTimeout(() => {
         emoji.style.transform = 'scale(1)';
     }, 100);
+    
     updateUI();
 }
 
 function calculateDPS() {
     let dps = 0;
+    
     for (const key in game.upgrades) {
         const upgrade = game.upgrades[key];
         if (upgrade.category === 'generators' && upgrade.owned > 0) {
             const baseValue = upgrade.baseEffect * upgrade.owned;
             const multiplier = getMultiplierForUpgrade(upgrade);
-            dps += baseValue * (1 + multiplier);
+            dps += baseValue * multiplier;
         }
     }
+    
     if (game.upgrades.special5.owned > 0) {
-        dps *= (1 + game.upgrades.special5.baseEffect * game.upgrades.special5.owned);
+        dps *= (1 + game.upgrades.special5.baseEffect);
     }
+    
     game.dps = dps;
 }
 
@@ -182,40 +147,49 @@ function formatUpgradeEffect(upgrade) {
     if (upgrade.category === 'generators') {
         const baseValue = upgrade.baseEffect;
         const multiplier = getMultiplierForUpgrade(upgrade);
-        return `${formatNumber(baseValue * (1 + multiplier))}/s`;
+        return `${formatNumber(baseValue * multiplier)}/s`;
+    } else if (upgrade.category === 'multipliers') {
+        return `+${(upgrade.baseEffect * 100)}% to all generators`;
     } else if (upgrade.category === 'special') {
         if (upgrade.id === 'special1') {
-            return `+${formatNumber(upgrade.baseEffect * upgrade.owned)} Drims per click`;
+            return `+${upgrade.baseEffect} Drims per click`;
         } else if (upgrade.id === 'special3') {
-            return `+${formatNumber(upgrade.baseEffect * upgrade.owned)} per generator`;
+            return `+${(upgrade.baseEffect * 100)}% to generators`;
         } else if (upgrade.id === 'special4') {
-            return `${formatNumber(upgrade.baseEffect * upgrade.owned * 100)}% chance for 10x`;
+            return `${(upgrade.baseEffect * 100)}% chance for 10x`;
         } else if (upgrade.id === 'special5') {
-            return `+${formatNumber(upgrade.baseEffect * upgrade.owned * 100)}% speed`;
+            return `+${(upgrade.baseEffect * 100)}% speed`;
         } else {
-            return `${formatNumber(upgrade.baseEffect)}x`;
+            return `${upgrade.baseEffect}x`;
         }
     }
 }
 
 function performRebirth() {
     const points = Math.floor(Math.sqrt(game.totalCurrency / 1e6));
+    
     if (points < 1) {
         alert("You need at least 1,000,000 total Drims to rebirth!");
         return;
     }
+    
     if (confirm(`Rebirth for ${points} points? This will reset your progress but give you permanent bonuses!`)) {
         game.rebirths++;
         game.rebirthPoints += points;
         game.currency = 0;
         game.totalCurrency = 0;
         game.dps = 0;
+        
         for (const key in game.upgrades) {
-            game.upgrades[key].owned = 0;
+            if (game.upgrades[key].category !== 'multipliers' && game.upgrades[key].category !== 'special') {
+                game.upgrades[key].owned = 0;
+            }
         }
+        
         if (game.rebirthUpgrades.rb1.owned > 0) {
             game.currency = game.rebirthUpgrades.rb1.baseEffect * game.rebirthUpgrades.rb1.owned;
         }
+        
         renderUpgrades();
         renderRebirthUpgrades();
         calculateDPS();
@@ -229,18 +203,20 @@ function initGame() {
             game.upgrades[key] = {...upgrades[key]};
         }
     }
+    
     for (const key in rebirthUpgrades) {
         if (!game.rebirthUpgrades[key]) {
             game.rebirthUpgrades[key] = {...rebirthUpgrades[key]};
         }
     }
+    
     for (const key in shopItems) {
         if (!game.shopItems[key]) {
             game.shopItems[key] = {...shopItems[key]};
         }
     }
+    
     loadGame();
-    document.querySelector('[data-tab="multipliers"]').remove();
     game.lastTick = Date.now();
     requestAnimationFrame(gameLoop);
     calculateDPS();
@@ -254,11 +230,13 @@ function initGame() {
 function gameLoop() {
     const now = Date.now();
     const deltaTime = (now - game.lastTick) / 1000;
+    
     if (deltaTime > 0) {
         const income = game.dps * deltaTime;
         game.currency += income;
         game.totalCurrency += income;
     }
+    
     game.lastTick = now;
     updateUI();
     requestAnimationFrame(gameLoop);
@@ -267,21 +245,48 @@ function gameLoop() {
 function setupUI() {
     const clickEmoji = document.getElementById('click-emoji');
     clickEmoji.addEventListener('click', handleClick);
+    
     const tabButtons = document.querySelectorAll('.tab-btn');
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
             tabButtons.forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
             button.classList.add('active');
             const tabId = button.getAttribute('data-tab') + '-tab';
             document.getElementById(tabId).classList.add('active');
         });
     });
+    
     document.getElementById('rebirth-btn').addEventListener('click', performRebirth);
-       document.getElementById('save-btn').addEventListener('click', saveGame);
+    document.getElementById('save-btn').addEventListener('click', saveGame);
     document.getElementById('reset-btn').addEventListener('click', resetGame);
-    document.getElementById('shop-btn').addEventListener('click', openShop);
-    document.getElementById('inventory-btn').addEventListener('click', openInventory);
+    
+    const shopBtn = document.createElement('button');
+    shopBtn.className = 'tab-btn';
+    shopBtn.setAttribute('data-tab', 'shop');
+    shopBtn.textContent = 'Shop';
+    shopBtn.addEventListener('click', openShop);
+    document.querySelector('.tabs').appendChild(shopBtn);
+    
+    const inventoryBtn = document.createElement('button');
+    inventoryBtn.className = 'tab-btn';
+    inventoryBtn.setAttribute('data-tab', 'inventory');
+    inventoryBtn.textContent = 'Inventory';
+    inventoryBtn.addEventListener('click', openInventory);
+    document.querySelector('.tabs').appendChild(inventoryBtn);
+    
+    const shopTab = document.createElement('div');
+    shopTab.className = 'tab-content';
+    shopTab.id = 'shop-tab';
+    shopTab.innerHTML = '<div class="upgrades-grid" id="shop-container"></div>';
+    document.querySelector('.upgrades-section').appendChild(shopTab);
+    
+    const inventoryTab = document.createElement('div');
+    inventoryTab.className = 'tab-content';
+    inventoryTab.id = 'inventory-tab';
+    inventoryTab.innerHTML = '<div class="upgrades-grid" id="inventory-container"></div>';
+    document.querySelector('.upgrades-section').appendChild(inventoryTab);
 }
 
 function createParticles(count, color) {
@@ -320,6 +325,7 @@ function createParticles(count, color) {
 
 function renderUpgrades() {
     document.getElementById('generators-container').innerHTML = '';
+    document.getElementById('multipliers-container').innerHTML = '';
     document.getElementById('special-container').innerHTML = '';
     
     for (const key in game.upgrades) {
@@ -344,13 +350,18 @@ function createUpgradeElement(upgrade) {
         element.classList.add('unaffordable');
     }
     
+    if ((upgrade.category === 'multipliers' || upgrade.category === 'special') && upgrade.owned > 0) {
+        element.classList.add('owned');
+    }
+    
     element.addEventListener('click', () => purchaseUpgrade(upgrade.id));
     
     element.innerHTML = `
         <div class="upgrade-emoji">${upgrade.emoji}</div>
         <div class="upgrade-name">${upgrade.name}</div>
         <div class="upgrade-price">${formatNumber(cost)} Drims</div>
-        <div class="upgrade-owned">Owned: ${upgrade.owned}</div>
+        <div class="upgrade-owned">${upgrade.category === 'multipliers' || upgrade.category === 'special' ? 
+            (upgrade.owned > 0 ? 'Owned' : 'Not Owned') : `Owned: ${upgrade.owned}`}</div>
         <div class="upgrade-effect">Effect: ${formatUpgradeEffect(upgrade)}</div>
         <div class="tooltip">${upgrade.description}</div>
     `;
@@ -362,7 +373,7 @@ function purchaseUpgrade(upgradeId) {
     const upgrade = game.upgrades[upgradeId];
     const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
     
-    if (game.currency >= cost) {
+    if (game.currency >= cost && (upgrade.category !== 'multipliers' && upgrade.category !== 'special' || upgrade.owned === 0)) {
         game.currency -= cost;
         upgrade.owned++;
         
@@ -396,7 +407,7 @@ function renderRebirthUpgrades() {
             <div class="upgrade-emoji">${upgrade.emoji}</div>
             <div class="upgrade-name">${upgrade.name} (Lvl ${upgrade.owned})</div>
             <div class="upgrade-price">${formatNumber(cost)} RP</div>
-            <div class="upgrade-effect">Effect: +${formatNumber(upgrade.baseEffect * upgrade.owned)}x</div>
+            <div class="upgrade-effect">Effect: +${(upgrade.baseEffect * upgrade.owned * 100)}%</div>
             <div class="tooltip">${upgrade.description}</div>
         `;
         
@@ -489,6 +500,7 @@ function openShop() {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     
+    document.querySelector('.tab-btn[data-tab="shop"]').classList.add('active');
     document.getElementById('shop-tab').classList.add('active');
     renderShop();
 }
@@ -497,6 +509,7 @@ function openInventory() {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     
+    document.querySelector('.tab-btn[data-tab="inventory"]').classList.add('active');
     document.getElementById('inventory-tab').classList.add('active');
     renderInventory();
 }
@@ -506,8 +519,22 @@ function updateUI() {
     document.getElementById('dps').textContent = formatNumber(game.dps);
     document.getElementById('rebirth-count').textContent = game.rebirths;
     document.getElementById('rebirth-points').textContent = game.rebirthPoints;
+    document.getElementById('rebirth-multiplier').textContent = formatNumber(calculateRebirthMultiplier());
     document.getElementById('next-rebirth-points').textContent = formatNumber(Math.floor(Math.sqrt(game.totalCurrency / 1e6)));
     document.getElementById('rebirth-btn').disabled = Math.floor(Math.sqrt(game.totalCurrency / 1e6)) < 1;
+}
+
+function calculateRebirthMultiplier() {
+    let multiplier = 1;
+    multiplier *= 1 + Math.sqrt(game.rebirthPoints) / 10;
+    
+    for (const key in game.rebirthUpgrades) {
+        if (game.rebirthUpgrades[key].owned > 0) {
+            multiplier *= (1 + game.rebirthUpgrades[key].baseEffect * game.rebirthUpgrades[key].owned);
+        }
+    }
+    
+    return multiplier;
 }
 
 function formatNumber(num) {
