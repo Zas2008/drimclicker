@@ -132,6 +132,17 @@ const upgrades = {
         category: "generators",
         description: "me"
     },
+        generator11: {
+        id: "generator12",
+        name: "👷 Chinese Guy",
+        emoji: "👷",
+        baseCost: 10e12,
+        costMultiplier: 1.15,
+        baseEffect: 1.6e8,
+        owned: 0,
+        category: "generators",
+        description: "They are good at working."
+    },
     multiplier1: {
         id: "multiplier1",
         name: "✨ Polish",
