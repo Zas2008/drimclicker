@@ -239,3 +239,5 @@ window.addEventListener('load', () => {
   addLeaderboardStyles();
   if (typeof game !== 'undefined') initLeaderboard();
 });
+
+// this doesnt currently work i probably wont fix it.
