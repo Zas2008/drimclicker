@@ -291,16 +291,7 @@ const rebirthUpgrades = {
 
 // Initialize the game
 function initGame() {
-    // Load saved game
-    loadGame();
-    
-    // Setup UI
-    setupUI();
-    
-    // Start game loop
-    requestAnimationFrame(gameLoop);
-    
-    // Initialize upgrades in game state
+    // Initialize upgrades
     for (const key in upgrades) {
         if (!game.upgrades[key]) {
             game.upgrades[key] = {...upgrades[key]};
@@ -314,14 +305,29 @@ function initGame() {
         }
     }
     
+    // Load saved game
+    loadGame();
+    
+    // Setup UI
+    setupUI();
+    
+    // Start game loop
+    game.lastTick = Date.now();
+    requestAnimationFrame(gameLoop);
+    
     // Calculate initial DPS
     calculateDPS();
+    updateUI();
+    
+    // Render all upgrades immediately
+    renderUpgrades();
+    renderRebirthUpgrades();
 }
 
 // Game loop
 function gameLoop() {
     const now = Date.now();
-    const deltaTime = (now - game.lastTick) / 1000; // Convert to seconds
+    const deltaTime = (now - game.lastTick) / 1000;
     
     // Generate passive income
     if (deltaTime > 0) {
@@ -349,11 +355,9 @@ function setupUI() {
     const tabButtons = document.querySelectorAll('.tab-btn');
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Remove active class from all tabs
             tabButtons.forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             
-            // Add active class to clicked tab
             button.classList.add('active');
             const tabId = button.getAttribute('data-tab') + '-tab';
             document.getElementById(tabId).classList.add('active');
@@ -366,10 +370,6 @@ function setupUI() {
     // Save/Reset buttons
     document.getElementById('save-btn').addEventListener('click', saveGame);
     document.getElementById('reset-btn').addEventListener('click', resetGame);
-    
-    // Render all upgrades
-    renderUpgrades();
-    renderRebirthUpgrades();
 }
 
 // Handle click on main emoji
@@ -403,6 +403,8 @@ function handleClick() {
     setTimeout(() => {
         emoji.style.transform = 'scale(1)';
     }, 100);
+    
+    updateUI();
 }
 
 // Create visual particles
@@ -421,7 +423,6 @@ function createParticles(count, color) {
         particle.style.left = `${centerX}px`;
         particle.style.top = `${centerY}px`;
         
-        // Random direction
         const angle = Math.random() * Math.PI * 2;
         const distance = Math.random() * 100 + 50;
         const duration = Math.random() * 2 + 1;
@@ -432,7 +433,6 @@ function createParticles(count, color) {
         
         container.appendChild(particle);
         
-        // Remove particle after animation
         setTimeout(() => {
             particle.style.opacity = '0';
             setTimeout(() => {
@@ -467,18 +467,14 @@ function createUpgradeElement(upgrade) {
     const element = document.createElement('div');
     element.className = 'upgrade';
     
-    // Calculate current cost
     const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
     
-    // Check if affordable
     if (game.currency < cost) {
         element.classList.add('unaffordable');
     }
     
-    // Add click handler
     element.addEventListener('click', () => purchaseUpgrade(upgrade.id));
     
-    // Create content
     element.innerHTML = `
         <div class="upgrade-emoji">${upgrade.emoji}</div>
         <div class="upgrade-name">${upgrade.name}</div>
@@ -498,7 +494,6 @@ function formatUpgradeEffect(upgrade) {
     } else if (upgrade.category === 'multipliers') {
         return `${formatNumber(upgrade.baseEffect)}x`;
     } else {
-        // Special upgrades
         if (upgrade.id === 'special1' || upgrade.id === 'special3' || upgrade.id === 'special4') {
             return `${formatNumber(upgrade.baseEffect * 100)}% per level`;
         } else {
@@ -552,7 +547,6 @@ function purchaseUpgrade(upgradeId) {
             game.totalCurrency *= upgrade.baseEffect;
         }
         
-        // Re-render upgrades and update UI
         renderUpgrades();
         calculateDPS();
         updateUI();
@@ -623,7 +617,6 @@ function purchaseRebirthUpgrade(upgradeId) {
         game.rebirthPoints -= upgrade.cost;
         upgrade.purchased = true;
         
-        // Re-render and recalculate
         renderRebirthUpgrades();
         calculateDPS();
         updateUI();
@@ -632,7 +625,6 @@ function purchaseRebirthUpgrade(upgradeId) {
 
 // Perform rebirth
 function performRebirth() {
-    // Calculate rebirth points (sqrt(total currency / 1e6))
     const points = Math.floor(Math.sqrt(game.totalCurrency / 1e6));
     
     if (points < 1) {
@@ -659,7 +651,6 @@ function performRebirth() {
             game.currency = 100 * game.rebirthUpgrades.rb1.effect;
         }
         
-        // Re-render everything
         renderUpgrades();
         renderRebirthUpgrades();
         calculateDPS();
@@ -686,11 +677,8 @@ function updateUI() {
 // Calculate rebirth multiplier
 function calculateRebirthMultiplier() {
     let multiplier = 1;
-    
-    // Base multiplier from rebirth points
     multiplier *= 1 + Math.sqrt(game.rebirthPoints) / 10;
     
-    // Apply purchased upgrades
     for (const key in game.rebirthUpgrades) {
         if (game.rebirthUpgrades[key].purchased) {
             multiplier *= game.rebirthUpgrades[key].effect;
@@ -740,14 +728,12 @@ function loadGame() {
         try {
             const parsed = JSON.parse(saveData);
             
-            // Basic validation
             if (parsed.version === game.version) {
                 game.currency = parsed.currency || 0;
                 game.totalCurrency = parsed.totalCurrency || 0;
                 game.rebirths = parsed.rebirths || 0;
                 game.rebirthPoints = parsed.rebirthPoints || 0;
                 
-                // Merge upgrades
                 if (parsed.upgrades) {
                     for (const key in parsed.upgrades) {
                         if (game.upgrades[key]) {
@@ -756,7 +742,6 @@ function loadGame() {
                     }
                 }
                 
-                // Merge rebirth upgrades
                 if (parsed.rebirthUpgrades) {
                     for (const key in parsed.rebirthUpgrades) {
                         if (game.rebirthUpgrades[key]) {
