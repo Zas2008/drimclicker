@@ -135,7 +135,7 @@ const upgrades = {
         baseEffect: 1.5,
         owned: 0,
         category: "multipliers",
-        description: "Makes everything shine brighter (1.5x multiplier)"
+        description: "Makes everything shine brighter (+0.5x per level)"
     },
     multiplier2: {
         id: "multiplier2",
@@ -146,7 +146,7 @@ const upgrades = {
         baseEffect: 2,
         owned: 0,
         category: "multipliers",
-        description: "Magical boost to all generators (2x multiplier)"
+        description: "Magical boost to all generators (+1x per level)"
     },
     multiplier3: {
         id: "multiplier3",
@@ -157,7 +157,7 @@ const upgrades = {
         baseEffect: 3,
         owned: 0,
         category: "multipliers",
-        description: "Electrifying speed boost (3x multiplier)"
+        description: "Electrifying speed boost (+2x per level)"
     },
     multiplier4: {
         id: "multiplier4",
@@ -168,7 +168,7 @@ const upgrades = {
         baseEffect: 5,
         owned: 0,
         category: "multipliers",
-        description: "Diamond-hard efficiency (5x multiplier)"
+        description: "Diamond-hard efficiency (+4x per level)"
     },
     multiplier5: {
         id: "multiplier5",
@@ -179,7 +179,7 @@ const upgrades = {
         baseEffect: 8,
         owned: 0,
         category: "multipliers",
-        description: "Mythical production boost (8x multiplier)"
+        description: "Mythical production boost (+7x per level)"
     },
     
     // Special Upgrades
@@ -240,52 +240,57 @@ const upgrades = {
     }
 };
 
-// Rebirth Upgrades
+// Rebirth Upgrades (now infinite)
 const rebirthUpgrades = {
     rb1: {
         id: "rb1",
         name: "🚀 Starter",
         emoji: "🚀",
-        cost: 1,
-        effect: 2,
-        description: "Start with 2x multiplier after rebirth",
-        purchased: false
+        baseCost: 1,
+        costMultiplier: 1.5,
+        baseEffect: 0.5,
+        owned: 0,
+        description: "Start with +0.5x multiplier per level after rebirth"
     },
     rb2: {
         id: "rb2",
         name: "💰 Investor",
         emoji: "💰",
-        cost: 3,
-        effect: 1.5,
-        description: "All generators produce 1.5x more",
-        purchased: false
+        baseCost: 3,
+        costMultiplier: 1.5,
+        baseEffect: 0.3,
+        owned: 0,
+        description: "All generators produce +0.3x more per level"
     },
     rb3: {
         id: "rb3",
         name: "⚡ Energize",
         emoji: "⚡",
-        cost: 5,
-        effect: 2,
-        description: "Click power is 2x stronger",
-        purchased: false
+        baseCost: 5,
+        costMultiplier: 1.5,
+        baseEffect: 0.5,
+        owned: 0,
+        description: "Click power is +0.5x stronger per level"
     },
     rb4: {
         id: "rb4",
         name: "♾️ Infinite",
         emoji: "♾️",
-        cost: 10,
-        effect: 1.2,
-        description: "Permanent 1.2x to all multipliers",
-        purchased: false
+        baseCost: 10,
+        costMultiplier: 1.5,
+        baseEffect: 0.1,
+        owned: 0,
+        description: "Permanent +0.1x to all multipliers per level"
     },
     rb5: {
         id: "rb5",
         name: "🌌 Cosmic",
         emoji: "🌌",
-        cost: 20,
-        effect: 1.5,
-        description: "Unlock cosmic generators (1.5x boost)",
-        purchased: false
+        baseCost: 20,
+        costMultiplier: 1.5,
+        baseEffect: 0.2,
+        owned: 0,
+        description: "Unlock cosmic generators (+0.2x boost per level)"
     }
 };
 
@@ -381,9 +386,9 @@ function handleClick() {
         clickValue *= Math.pow(game.upgrades.special1.baseEffect, game.upgrades.special1.owned);
     }
     
-    // Apply rebirth upgrades
-    if (game.rebirthUpgrades.rb3.purchased) {
-        clickValue *= game.rebirthUpgrades.rb3.effect;
+    // Apply rebirth upgrades (now additive)
+    if (game.rebirthUpgrades.rb3.owned > 0) {
+        clickValue *= (1 + game.rebirthUpgrades.rb3.baseEffect * game.rebirthUpgrades.rb3.owned);
     }
     
     // Lucky chance
@@ -492,7 +497,9 @@ function formatUpgradeEffect(upgrade) {
     if (upgrade.category === 'generators') {
         return `${formatNumber(upgrade.baseEffect * getMultiplierForUpgrade(upgrade))}/s`;
     } else if (upgrade.category === 'multipliers') {
-        return `${formatNumber(upgrade.baseEffect)}x`;
+        // Show additive bonus now
+        const bonus = (upgrade.baseEffect - 1) * upgrade.owned;
+        return `+${formatNumber(bonus)}x (${formatNumber(1 + bonus)}x total)`;
     } else {
         if (upgrade.id === 'special1' || upgrade.id === 'special3' || upgrade.id === 'special4') {
             return `${formatNumber(upgrade.baseEffect * 100)}% per level`;
@@ -502,31 +509,38 @@ function formatUpgradeEffect(upgrade) {
     }
 }
 
-// Get multiplier for an upgrade
+// Get multiplier for an upgrade (now additive for multipliers)
 function getMultiplierForUpgrade(upgrade) {
     let multiplier = 1;
     
-    // Apply multiplier upgrades
+    // Apply multiplier upgrades (now additive)
+    let multiplierBonus = 0;
     for (const key in game.upgrades) {
         const up = game.upgrades[key];
         if (up.category === 'multipliers' && up.owned > 0) {
-            multiplier *= Math.pow(up.baseEffect, up.owned);
+            multiplierBonus += (up.baseEffect - 1) * up.owned;
         }
     }
+    multiplier += multiplierBonus;
     
-    // Apply rebirth upgrades
-    if (game.rebirthUpgrades.rb2.purchased) {
-        multiplier *= game.rebirthUpgrades.rb2.effect;
+    // Apply rebirth upgrades (still multiplicative with other categories)
+    if (game.rebirthUpgrades.rb2.owned > 0) {
+        multiplier *= (1 + game.rebirthUpgrades.rb2.baseEffect * game.rebirthUpgrades.rb2.owned);
     }
     
-    // Apply special upgrades
+    // Apply special upgrades (still multiplicative)
     if (game.upgrades.special3.owned > 0 && upgrade.category === 'generators') {
         multiplier *= Math.pow(game.upgrades.special3.baseEffect, game.upgrades.special3.owned);
     }
     
-    // Apply rebirth global multiplier
-    if (game.rebirthUpgrades.rb4.purchased) {
-        multiplier *= game.rebirthUpgrades.rb4.effect;
+    // Apply rebirth global multiplier (still multiplicative)
+    if (game.rebirthUpgrades.rb4.owned > 0) {
+        multiplier *= (1 + game.rebirthUpgrades.rb4.baseEffect * game.rebirthUpgrades.rb4.owned);
+    }
+    
+    // Apply cosmic boost if purchased
+    if (game.rebirthUpgrades.rb5.owned > 0) {
+        multiplier *= (1 + game.rebirthUpgrades.rb5.baseEffect * game.rebirthUpgrades.rb5.owned);
     }
     
     return multiplier;
@@ -573,49 +587,43 @@ function calculateDPS() {
     game.dps = dps;
 }
 
-// Render rebirth upgrades
+// Render rebirth upgrades (now infinite)
 function renderRebirthUpgrades() {
     const container = document.getElementById('rebirth-upgrades-container');
     container.innerHTML = '';
     
     for (const key in game.rebirthUpgrades) {
         const upgrade = game.rebirthUpgrades[key];
+        const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
+        
         const element = document.createElement('div');
         element.className = 'rebirth-upgrade';
         
-        if (game.rebirthPoints < upgrade.cost || upgrade.purchased) {
+        if (game.rebirthPoints < cost) {
             element.classList.add('unaffordable');
         }
         
-        if (upgrade.purchased) {
-            element.innerHTML = `
-                <div class="upgrade-emoji">${upgrade.emoji}</div>
-                <div class="upgrade-name">${upgrade.name}</div>
-                <div class="upgrade-effect">Purchased!</div>
-                <div class="tooltip">${upgrade.description}</div>
-            `;
-        } else {
-            element.innerHTML = `
-                <div class="upgrade-emoji">${upgrade.emoji}</div>
-                <div class="upgrade-name">${upgrade.name}</div>
-                <div class="upgrade-price">${upgrade.cost} RP</div>
-                <div class="upgrade-effect">Effect: ${formatNumber(upgrade.effect)}x</div>
-                <div class="tooltip">${upgrade.description}</div>
-            `;
-        }
+        element.innerHTML = `
+            <div class="upgrade-emoji">${upgrade.emoji}</div>
+            <div class="upgrade-name">${upgrade.name} (Lvl ${upgrade.owned})</div>
+            <div class="upgrade-price">${formatNumber(cost)} RP</div>
+            <div class="upgrade-effect">Effect: +${formatNumber(upgrade.baseEffect * upgrade.owned)}x</div>
+            <div class="tooltip">${upgrade.description}</div>
+        `;
         
         element.addEventListener('click', () => purchaseRebirthUpgrade(upgrade.id));
         container.appendChild(element);
     }
 }
 
-// Purchase rebirth upgrade
+// Purchase rebirth upgrade (now infinite)
 function purchaseRebirthUpgrade(upgradeId) {
     const upgrade = game.rebirthUpgrades[upgradeId];
+    const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.costMultiplier, upgrade.owned));
     
-    if (!upgrade.purchased && game.rebirthPoints >= upgrade.cost) {
-        game.rebirthPoints -= upgrade.cost;
-        upgrade.purchased = true;
+    if (game.rebirthPoints >= cost) {
+        game.rebirthPoints -= cost;
+        upgrade.owned++;
         
         renderRebirthUpgrades();
         calculateDPS();
@@ -647,8 +655,8 @@ function performRebirth() {
         }
         
         // Apply starter bonus if purchased
-        if (game.rebirthUpgrades.rb1.purchased) {
-            game.currency = 100 * game.rebirthUpgrades.rb1.effect;
+        if (game.rebirthUpgrades.rb1.owned > 0) {
+            game.currency = 100 * (1 + game.rebirthUpgrades.rb1.baseEffect * game.rebirthUpgrades.rb1.owned);
         }
         
         renderUpgrades();
@@ -680,8 +688,8 @@ function calculateRebirthMultiplier() {
     multiplier *= 1 + Math.sqrt(game.rebirthPoints) / 10;
     
     for (const key in game.rebirthUpgrades) {
-        if (game.rebirthUpgrades[key].purchased) {
-            multiplier *= game.rebirthUpgrades[key].effect;
+        if (game.rebirthUpgrades[key].owned > 0) {
+            multiplier *= (1 + game.rebirthUpgrades[key].baseEffect * game.rebirthUpgrades[key].owned);
         }
     }
     
@@ -745,7 +753,7 @@ function loadGame() {
                 if (parsed.rebirthUpgrades) {
                     for (const key in parsed.rebirthUpgrades) {
                         if (game.rebirthUpgrades[key]) {
-                            game.rebirthUpgrades[key].purchased = parsed.rebirthUpgrades[key].purchased || false;
+                            game.rebirthUpgrades[key].owned = parsed.rebirthUpgrades[key].owned || 0;
                         }
                     }
                 }
