@@ -1,1 +1,5 @@
-I don't know what to say here but it looks better with a README in it lol
+Hi lol this is my funny game i made cause i thought it was funny
+
+Sorry if the code is hard to mod and whatnot. I haven't made a game in HTML before
+
+Have fun!
