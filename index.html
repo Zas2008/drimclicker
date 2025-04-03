@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEST SITE EVER</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="hotpink" stroke-width="2"/></svg>'), auto;
+            transition: all 0.3s;
+        }
+        #main-title {
+            font-size: 5rem;
+            margin: 2rem 0;
+            color: #ff00aa;
+            text-shadow: 3px 3px 0 #00ffaa, 6px 6px 0 #aa00ff;
+            transition: all 0.5s;
+            position: relative;
+            z-index: 100;
+        }
+        .falling-letter {
+            position: absolute;
+            transition: transform 2s, opacity 3s;
+            pointer-events: none;
+            z-index: 10;
+        }
+        #interactive-area {
+            min-height: 300px;
+            position: relative;
+            margin: 2rem;
+            padding: 2rem;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        #clicker-game {
+            display: none;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #fffacd;
+            border-radius: 15px;
+            border: 3px dashed #ff69b4;
+        }
+        #clicker-count {
+            font-size: 2rem;
+            color: #ff4500;
+        }
+        #clicker-button {
+            background-color: #ff69b4;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.2s;
+            box-shadow: 0 5px 0 #c71585;
+        }
+        #clicker-button:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 #c71585;
+        }
+        #account-section {
+            display: none;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #e6e6fa;
+            border-radius: 15px;
+        }
+        #random-name {
+            font-weight: bold;
+            color: #9370db;
+            font-size: 1.5rem;
+        }
+        .random-object {
+            position: absolute;
+            transition: all 1s;
+            cursor: pointer;
+        }
+        #secret-counter {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        #easter-egg {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            transition: bottom 1s;
+        }
+        #color-changer {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+            border-radius: 50%;
+            cursor: pointer;
+            animation: rainbow 5s infinite;
+        }
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        #meme-generator {
+            display: none;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 15px;
+            border: 3px solid #000;
+        }
+        #meme-image {
+            max-width: 100%;
+            max-height: 300px;
+        }
+        #konami-code {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-size: 3rem;
+        }
+        #main-clicker {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 500;
+            background: linear-gradient(45deg, #ff00aa, #aa00ff);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            user-select: none;
+        }
+        #main-clicker:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+        #clicker-upgrades {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 300px;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        .upgrade {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #ddd;
+        }
+        .upgrade:hover {
+            background-color: #e0e0e0;
+        }
+        .upgrade.unlocked {
+            background-color: #d4edda;
+        }
+        .upgrade.maxed {
+            background-color: #cce5ff;
+        }
+        #clicker-stats {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        #prestige-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            display: none;
+        }
+        #achievements {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            display: none;
+        }
+        .achievement {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .achievement.unlocked {
+            background-color: #fff3cd;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div id="color-changer"></div>
+    <h1 id="main-title">BEST SITE EVER</h1>
+    <div id="interactive-area">
+        <p>Move your mouse around or click anywhere to start the madness!</p>
+    </div>
+    <div id="clicker-game">
+        <h2>BEST CLICKER GAME EVER</h2>
+        <div id="clicker-count">0 clicks</div>
+        <button id="clicker-button">CLICK ME!</button>
+        <p id="clicker-message"></p>
+    </div>
+    <div id="account-section">
+        <h2>YOUR RANDOM ACCOUNT</h2>
+        <p>Your randomly generated username is:</p>
+        <p id="random-name"></p>
+        <p>Account created: <span id="account-date"></span></p>
+    </div>
+    <div id="meme-generator">
+        <h2>RANDOM MEME GENERATOR</h2>
+        <img id="meme-image" src="" alt="Random meme">
+        <button id="new-meme">Gimme Another Meme!</button>
+    </div>
+    <div id="secret-counter">Secret actions: 0</div>
+    <div id="easter-egg">🎉 CONGRATULATIONS! 🎉</div>
+    <div id="konami-code">
+        <h1>YOU FOUND THE SECRET!</h1>
+        <p>Now you're officially cool 😎</p>
+        <button id="close-konami">Close</button>
+    </div>
+    <div id="main-clicker">CLICK ME!</div>
+    <div id="clicker-upgrades">
+        <h2>UPGRADES</h2>
+        <div id="upgrades-container"></div>
+    </div>
+    <div id="clicker-stats">
+        <h2>STATS</h2>
+        <p>Points: <span id="points-display">0</span></p>
+        <p>Points Per Second: <span id="pps-display">0</span></p>
+        <p>Total Clicks: <span id="total-clicks">0</span></p>
+        <p>Total Points: <span id="total-points">0</span></p>
+    </div>
+    <button id="prestige-button">PRESTIGE (0)</button>
+    <div id="achievements">
+        <h2>ACHIEVEMENTS</h2>
+        <div id="achievements-container"></div>
+    </div>
+    <script>
+        let interactionCount = 0;
+        let clickerCount = 0;
+        let secretCounter = 0;
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3', '#33FFF3'];
+        const shapes = ['⭐', '🌈', '🍕', '🐱', '👾', '🎮', '🤖', '👽', '🦄', '🍔'];
+        const memes = [
+            'https://i.imgflip.com/1bij.jpg',
+            'https://i.imgflip.com/1bgw.jpg',
+            'https://i.imgflip.com/1bhf.jpg',
+            'https://i.imgflip.com/1bh3.jpg',
+            'https://i.imgflip.com/1bh8.jpg',
+            'https://i.imgflip.com/9vct.jpg',
+            'https://i.imgflip.com/1bip.jpg',
+            'https://i.imgflip.com/1bhm.jpg'
+        ];
+
+        const mainTitle = document.getElementById('main-title');
+        const interactiveArea = document.getElementById('interactive-area');
+        const clickerGame = document.getElementById('clicker-game');
+        const clickerButton = document.getElementById('clicker-button');
+        const clickerCount = document.getElementById('clicker-count');
+        const clickerMessage = document.getElementById('clicker-message');
+        const accountSection = document.getElementById('account-section');
+        const randomName = document.getElementById('random-name');
+        const accountDate = document.getElementById('account-date');
+        const secretCounterEl = document.getElementById('secret-counter');
+        const easterEgg = document.getElementById('easter-egg');
+        const colorChanger = document.getElementById('color-changer');
+        const memeGenerator = document.getElementById('meme-generator');
+        const memeImage = document.getElementById('meme-image');
+        const newMemeBtn = document.getElementById('new-meme');
+        const konamiPopup = document.getElementById('konami-code');
+        const closeKonami = document.getElementById('close-konami');
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        const mainClicker = document.getElementById('main-clicker');
+        const clickerUpgrades = document.getElementById('clicker-upgrades');
+        const upgradesContainer = document.getElementById('upgrades-container');
+        const pointsDisplay = document.getElementById('points-display');
+        const ppsDisplay = document.getElementById('pps-display');
+        const totalClicksDisplay = document.getElementById('total-clicks');
+        const totalPointsDisplay = document.getElementById('total-points');
+        const prestigeButton = document.getElementById('prestige-button');
+        const achievements = document.getElementById('achievements');
+        const achievementsContainer = document.getElementById('achievements-container');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        let points = 0;
+        let pointsPerClick = 1;
+        let pointsPerSecond = 0;
+        let totalClicks = 0;
+        let totalPoints = 0;
+        let prestigeLevel = 0;
+        let prestigePoints = 0;
+        let lastUpdate = Date.now();
+
+        const upgrades = [
+            { id: 1, name: "Better Cursor", description: "Double your clicking power", cost: 10, power: 2, type: "click", owned: 0, max: Infinity },
+            { id: 2, name: "Auto-Clicker", description: "Automatically clicks once per second", cost: 50, power: 1, type: "auto", owned: 0, max: 100 },
+            { id: 3, name: "Mega Click", description: "Each click is 5x more powerful", cost: 200, power: 5, type: "click", owned: 0, max: Infinity },
+            { id: 4, name: "Super Auto-Clicker", description: "Twice as powerful as regular auto-clickers", cost: 1000, power: 2, type: "auto", owned: 0, max: 50 },
+            { id: 5, name: "Click Factory", description: "Produces 10 points per second", cost: 5000, power: 10, type: "auto", owned: 0, max: 20 },
+            { id: 6, name: "Click Power", description: "Each click is 10x more powerful", cost: 10000, power: 10, type: "click", owned: 0, max: Infinity },
+            { id: 7, name: "Quantum Clicker", description: "Produces 100 points per second", cost: 50000, power: 100, type: "auto", owned: 0, max: 10 },
+            { id: 8, name: "Ultra Click", description: "Each click is 100x more powerful", cost: 100000, power: 100, type: "click", owned: 0, max: Infinity },
+            { id: 9, name: "Time Warp", description: "All auto-clickers work 2x faster", cost: 200000, power: 2, type: "multiplier", owned: 0, max: 5 },
+            { id: 10, name: "Infinity Click", description: "Each click is 1000x more powerful", cost: 1000000, power: 1000, type: "click", owned: 0, max: Infinity },
+            { id: 11, name: "Dimensional Factory", description: "Produces 1000 points per second", cost: 5000000, power: 1000, type: "auto", owned: 0, max: 5 },
+            { id: 12, name: "Reality Bender", description: "All auto-clickers work 5x faster", cost: 10000000, power: 5, type: "multiplier", owned: 0, max: 3 },
+            { id: 13, name: "Omnipotent Click", description: "Each click is 10000x more powerful", cost: 50000000, power: 10000, type: "click", owned: 0, max: Infinity },
+            { id: 14, name: "Cosmic Generator", description: "Produces 10000 points per second", cost: 100000000, power: 10000, type: "auto", owned: 0, max: 3 },
+            { id: 15, name: "God Multiplier", description: "All auto-clickers work 10x faster", cost: 500000000, power: 10, type: "multiplier", owned: 0, max: 2 },
+            { id: 16, name: "The Final Upgrade", description: "Unlocks ultimate clicking power", cost: 1000000000, power: 100000, type: "click", owned: 0, max: 1 }
+        ];
+
+        const achievementsList = [
+            { id: 1, name: "First Click", description: "Make your first click", unlocked: false, condition: () => totalClicks >= 1 },
+            { id: 2, name: "100 Clicks", description: "Reach 100 total clicks", unlocked: false, condition: () => totalClicks >= 100 },
+            { id: 3, name: "1,000 Clicks", description: "Reach 1,000 total clicks", unlocked: false, condition: () => totalClicks >= 1000 },
+            { id: 4, name: "10,000 Clicks", description: "Reach 10,000 total clicks", unlocked: false, condition: () => totalClicks >= 10000 },
+            { id: 5, name: "First Point", description: "Earn your first point", unlocked: false, condition: () => totalPoints >= 1 },
+            { id: 6, name: "100 Points", description: "Earn 100 points", unlocked: false, condition: () => totalPoints >= 100 },
+            { id: 7, name: "1,000 Points", description: "Earn 1,000 points", unlocked: false, condition: () => totalPoints >= 1000 },
+            { id: 8, name: "10,000 Points", description: "Earn 10,000 points", unlocked: false, condition: () => totalPoints >= 10000 },
+            { id: 9, name: "100,000 Points", description: "Earn 100,000 points", unlocked: false, condition: () => totalPoints >= 100000 },
+            { id: 10, name: "1,000,000 Points", description: "Earn 1,000,000 points", unlocked: false, condition: () => totalPoints >= 1000000 },
+            { id: 11, name: "First Upgrade", description: "Buy your first upgrade", unlocked: false, condition: () => upgrades.some(u => u.owned > 0) },
+            { id: 12, name: "Auto-Clicker", description: "Buy your first auto-clicker", unlocked: false, condition: () => upgrades[1].owned > 0 },
+            { id: 13, name: "Prestige", description: "Prestige for the first time", unlocked: false, condition: () => prestigeLevel >= 1 },
+            { id: 14, name: "Ultimate Clicker", description: "Buy the final upgrade", unlocked: false, condition: () => upgrades[15].owned > 0 }
+        ];
+
+        function initGame() {
+            renderUpgrades();
+            renderAchievements();
+            updateStats();
+            gameLoop();
+        }
+
+        function gameLoop() {
+            const now = Date.now();
+            const delta = (now - lastUpdate) / 1000;
+            lastUpdate = now;
+
+            if (delta < 1) {
+                addPoints(pointsPerSecond * delta);
+            }
+
+            updateStats();
+            checkAchievements();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function addPoints(amount) {
+            points += amount;
+            totalPoints += amount;
+        }
+
+        function updateStats() {
+            pointsDisplay.textContent = Math.floor(points).toLocaleString();
+            ppsDisplay.textContent = Math.floor(pointsPerSecond).toLocaleString();
+            totalClicksDisplay.textContent = totalClicks.toLocaleString();
+            totalPointsDisplay.textContent = Math.floor(totalPoints).toLocaleString();
+
+            if (totalPoints >= 1000000 && prestigeLevel === 0) {
+                prestigeButton.style.display = 'block';
+                prestigeButton.textContent = `PRESTIGE (${prestigeLevel}) - +${Math.floor(Math.sqrt(totalPoints / 1000000))} Prestige Points`;
+            }
+        }
+
+        function renderUpgrades() {
+            upgradesContainer.innerHTML = '';
+            upgrades.forEach(upgrade => {
+                const upgradeEl = document.createElement('div');
+                upgradeEl.className = `upgrade ${upgrade.owned > 0 ? 'unlocked' : ''} ${upgrade.owned >= upgrade.max ? 'maxed' : ''}`;
+                upgradeEl.innerHTML = `
+                    <h3>${upgrade.name} ${upgrade.owned > 0 ? `(${upgrade.owned}/${upgrade.max})` : ''}</h3>
+                    <p>${upgrade.description}</p>
+                    <p>Cost: ${Math.floor(upgrade.cost * Math.pow(1.15, upgrade.owned))} points</p>
+                    <p>Power: +${upgrade.power} ${upgrade.type === 'click' ? 'per click' : upgrade.type === 'auto' ? 'per second' : 'multiplier'}</p>
+                `;
+                upgradeEl.addEventListener('click', () => buyUpgrade(upgrade.id));
+                upgradesContainer.appendChild(upgradeEl);
+            });
+        }
+
+        function buyUpgrade(id) {
+            const upgrade = upgrades.find(u => u.id === id);
+            if (!upgrade || upgrade.owned >= upgrade.max) return;
+
+            const cost = upgrade.cost * Math.pow(1.15, upgrade.owned);
+            if (points >= cost) {
+                points -= cost;
+                upgrade.owned++;
+
+                if (upgrade.type === 'click') {
+                    pointsPerClick *= upgrade.power;
+                } else if (upgrade.type === 'auto') {
+                    pointsPerSecond += upgrade.power;
+                } else if (upgrade.type === 'multiplier') {
+                    pointsPerSecond *= upgrade.power;
+                }
+
+                renderUpgrades();
+                updateStats();
+                createConfetti();
+            }
+        }
+
+        function renderAchievements() {
+            achievementsContainer.innerHTML = '';
+            achievementsList.forEach(achievement => {
+                const achievementEl = document.createElement('div');
+                achievementEl.className = `achievement ${achievement.unlocked ? 'unlocked' : ''}`;
+                achievementEl.innerHTML = `
+                    <h3>${achievement.name} ${achievement.unlocked ? '✅' : '🔒'}</h3>
+                    <p>${achievement.description}</p>
+                `;
+                achievementsContainer.appendChild(achievementEl);
+            });
+        }
+
+        function checkAchievements() {
+            let changed = false;
+            achievementsList.forEach(achievement => {
+                if (!achievement.unlocked && achievement.condition()) {
+                    achievement.unlocked = true;
+                    changed = true;
+                    showAchievementUnlocked(achievement);
+                }
+            });
+            if (changed) renderAchievements();
+        }
+
+        function showAchievementUnlocked(achievement) {
+            const notification = document.createElement('div');
+            notification.className = 'random-object';
+            notification.textContent = `🏆 ${achievement.name} Unlocked! 🏆`;
+            notification.style.fontSize = '24px';
+            notification.style.color = '#ffcc00';
+            notification.style.left = '50%';
+            notification.style.top = '20%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.zIndex = '1000';
+            notification.style.pointerEvents = 'none';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.top = '15%';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 1000);
+            }, 2000);
+        }
+
+        function prestige() {
+            prestigePoints += Math.floor(Math.sqrt(totalPoints / 1000000));
+            prestigeLevel++;
+            points = 0;
+            pointsPerClick = 1 + prestigeLevel;
+            pointsPerSecond = 0;
+            totalClicks = 0;
+            totalPoints = 0;
+            
+            upgrades.forEach(upgrade => {
+                upgrade.owned = 0;
+            });
+            
+            prestigeButton.style.display = 'none';
+            renderUpgrades();
+            updateStats();
+            
+            const prestigeEffect = document.createElement('div');
+            prestigeEffect.className = 'random-object';
+            prestigeEffect.textContent = `🌟 PRESTIGE ${prestigeLevel} 🌟`;
+            prestigeEffect.style.fontSize = '48px';
+            prestigeEffect.style.color = '#ffcc00';
+            prestigeEffect.style.left = '50%';
+            prestigeEffect.style.top = '50%';
+            prestigeEffect.style.transform = 'translate(-50%, -50%)';
+            prestigeEffect.style.zIndex = '1000';
+            prestigeEffect.style.pointerEvents = 'none';
+            
+            document.body.appendChild(prestigeEffect);
+            
+            setTimeout(() => {
+                prestigeEffect.style.transform = 'translate(-50%, -50%) scale(2)';
+                prestigeEffect.style.opacity = '0';
+                setTimeout(() => prestigeEffect.remove(), 1000);
+            }, 2000);
+        }
+
+        window.onload = function() {
+            document.addEventListener('mousemove', handleInteraction);
+            document.addEventListener('click', handleInteraction);
+            document.addEventListener('keydown', handleKeyPress);
+            document.addEventListener('scroll', handleInteraction);
+            
+            clickerButton.addEventListener('click', handleClickerClick);
+            colorChanger.addEventListener('click', changeBackgroundColor);
+            newMemeBtn.addEventListener('click', generateRandomMeme);
+            closeKonami.addEventListener('click', () => konamiPopup.style.display = 'none');
+            
+            mainClicker.addEventListener('click', handleMainClick);
+            prestigeButton.addEventListener('click', prestige);
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'u') clickerUpgrades.style.display = clickerUpgrades.style.display === 'block' ? 'none' : 'block';
+                if (e.key === 'a') achievements.style.display = achievements.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            setInterval(createParticle, 300);
+            animateParticles();
+            initGame();
+        };
+
+        function handleMainClick() {
+            addPoints(pointsPerClick);
+            totalClicks++;
+            
+            mainClicker.style.transform = 'translate(-50%, -50%) scale(0.95)';
+            setTimeout(() => {
+                mainClicker.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 100);
+            
+            if (Math.random() > 0.95) {
+                createRandomObject();
+            }
+        }
+
+        function handleInteraction(e) {
+            interactionCount++;
+            
+            if (interactionCount === 5) makeLettersFall();
+            if (interactionCount === 10) clickerGame.style.display = 'block';
+            if (interactionCount === 20) showAccountSection();
+            if (interactionCount === 30) {
+                memeGenerator.style.display = 'block';
+                generateRandomMeme();
+            }
+            if (interactionCount % 50 === 0) createRandomObject();
+            
+            if (e.type === 'mousemove') {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                mainTitle.style.color = `hsl(${x * 360}, ${y * 100}%, 50%)`;
+                
+                if (interactionCount % 3 === 0) createTrail(e.clientX, e.clientY);
+            }
+            
+            if (e.type === 'click') {
+                mainTitle.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) rotate(${Math.random() * 10 - 5}deg)`;
+                playRandomSound();
+            }
+        }
+
+        function makeLettersFall() {
+            const title = mainTitle.textContent;
+            mainTitle.innerHTML = '';
+            
+            for (let i = 0; i < title.length; i++) {
+                const letter = document.createElement('span');
+                letter.textContent = title[i];
+                letter.style.display = 'inline-block';
+                letter.style.transform = 'translateY(0)';
+                mainTitle.appendChild(letter);
+                
+                setTimeout(() => {
+                    letter.style.transform = `translateY(${Math.random() * 500}px) rotate(${Math.random() * 360}deg)`;
+                    letter.style.opacity = '0';
+                }, Math.random() * 2000 + 1000);
+            }
+            
+            setTimeout(() => {
+                mainTitle.innerHTML = 'EVEN BETTER SITE!';
+                mainTitle.style.color = '#00ffaa';
+                mainTitle.style.textShadow = '3px 3px 0 #ff00aa, 6px 6px 0 #aa00ff';
+            }, 3000);
+        }
+
+        function handleClickerClick() {
+            clickerCount++;
+            clickerCount.textContent = `${clickerCount} clicks`;
+            
+            clickerButton.style.transform = `scale(${1 + Math.random() * 0.2})`;
+            clickerButton.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            if (clickerCount === 10) clickerMessage.textContent = 'Keep going!';
+            else if (clickerCount === 25) clickerMessage.textContent = 'You're on fire!';
+            else if (clickerCount === 50) {
+                clickerMessage.textContent = 'Legendary clicker!';
+                createConfetti();
+            } else if (clickerCount === 100) {
+                clickerMessage.textContent = 'BEST CLICKER EVER!';
+                clickerButton.textContent = 'ULTRA CLICK MODE';
+                clickerButton.style.animation = 'pulse 0.5s infinite';
+            }
+            
+            if (Math.random() > 0.9) createRandomObject();
+        }
+
+        function showAccountSection() {
+            accountSection.style.display = 'block';
+            
+            const adjectives = ['Epic', 'Mega', 'Super', 'Ultra', 'Hyper', 'Awesome', 'Fantastic'];
+            const nouns = ['Gamer', 'Hero', 'Ninja', 'Wizard', 'Champion', 'Legend', 'Star'];
+            const randomAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
+            const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+            const randomNum = Math.floor(Math.random() * 1000);
+            
+            randomName.textContent = `${randomAdj}${randomNoun}${randomNum}`;
+            
+            const now = new Date();
+            accountDate.textContent = now.toLocaleString();
+        }
+
+        function createRandomObject() {
+            secretCounter++;
+            secretCounterEl.textContent = `Secret actions: ${secretCounter}`;
+            
+            const obj = document.createElement('div');
+            obj.className = 'random-object';
+            obj.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+            obj.style.fontSize = `${Math.random() * 30 + 20}px`;
+            obj.style.color = colors[Math.floor(Math.random() * colors.length)];
+            obj.style.left = `${Math.random() * 80 + 10}%`;
+            obj.style.top = `${Math.random() * 80 + 10}%`;
+            
+            document.body.appendChild(obj);
+            
+            obj.addEventListener('click', () => {
+                obj.style.transform = 'scale(1.5)';
+                obj.style.opacity = '0';
+                setTimeout(() => obj.remove(), 500);
+                secretCounter += 5;
+                secretCounterEl.textContent = `Secret actions: ${secretCounter}`;
+                addPoints(100 * prestigeLevel);
+                
+                if (secretCounter > 50) {
+                    easterEgg.style.bottom = '20px';
+                    setTimeout(() => easterEgg.style.bottom = '-100px', 3000);
+                }
+            });
+            
+            setInterval(() => {
+                obj.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) rotate(${Math.random() * 360}deg)`;
+            }, 1000);
+            
+            setTimeout(() => {
+                obj.style.opacity = '0';
+                setTimeout(() => obj.remove(), 1000);
+            }, 10000);
+        }
+
+        function changeBackgroundColor() {
+            document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            const cursorSize = Math.random() * 20 + 10;
+            document.body.style.cursor = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="${cursorSize}" height="${cursorSize}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="${cursorSize/2}" fill="${colors[Math.floor(Math.random() * colors.length)]}"/></svg>'), auto`;
+        }
+
+        function generateRandomMeme() {
+            const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+            memeImage.src = randomMeme;
+        }
+
+        function handleKeyPress(e) {
+            konamiCode.push(e.key);
+            if (konamiCode.length > konamiSequence.length) konamiCode.shift();
+            if (konamiCode.join('') === konamiSequence.join('')) {
+                konamiPopup.style.display = 'flex';
+                konamiCode = [];
+                addPoints(1000000);
+            }
+        }
+
+        function createTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.style.position = 'absolute';
+            trail.style.left = `${x}px`;
+            trail.style.top = `${y}px`;
+            trail.style.width = '10px';
+            trail.style.height = '10px';
+            trail.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            trail.style.borderRadius = '50%';
+            trail.style.pointerEvents = 'none';
+            trail.style.zIndex = '1';
+            
+            document.body.appendChild(trail);
+            
+            setTimeout(() => {
+                trail.style.opacity = '0';
+                trail.style.transform = 'scale(2)';
+                setTimeout(() => trail.remove(), 500);
+            }, 100);
+        }
+
+        function playRandomSound() {
+            const sounds = [
+                'https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3',
+                'https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3',
+                'https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3',
+                'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3'
+            ];
+            const sound = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
+            sound.volume = 0.2;
+            sound.play();
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'random-object';
+                confetti.textContent = ['✨', '🎉', '🌟', '💫'][Math.floor(Math.random() * 4)];
+                confetti.style.fontSize = `${Math.random() * 20 + 10}px`;
+                confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = '-50px';
+                
+                document.body.appendChild(confetti);
+                
+                const duration = Math.random() * 3 + 2;
+                confetti.style.transition = `top ${duration}s linear, transform ${duration}s ease-in-out`;
+                
+                setTimeout(() => {
+                    confetti.style.top = `${Math.random() * 100 + 100}%`;
+                    confetti.style.transform = `rotate(${Math.random() * 720 - 360}deg) translateX(${Math.random() * 200 - 100}px)`;
+                }, 10);
+                
+                setTimeout(() => confetti.remove(), duration * 1000 + 1000);
+            }
+        }
+
+        function createParticle() {
+            const particle = {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 5 + 2,
+                speedX: Math.random() * 3 - 1.5,
+                speedY: Math.random() * 3 - 1.5,
+                color: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.7)`
+            };
+            particles.push(particle);
+            if (particles.length > 200) particles.shift();
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+    </script>
+</body>
+</html>
